@@ -1,0 +1,33 @@
+{% if page %}<div class="popuptitle" style="display:none">{{ page.name }}</div>{% endif %}
+{% if contents %}
+    {% for sContent in contents %}
+        {% set access = false %}
+        {# Si des droits spécifiques sont demandés: #}
+        {% for group in sContent.content.rights %}
+            {% if group.name == 'Users' %}
+                {% set access = true %}
+                {# <div> Access pour tous si group.name = Users </div> #}
+            {% else %}
+                {% set role = 'ROLE_'~ group.name|upper %}
+                {# <div> role need = {{role}} </div> #}
+                {% if is_granted(role) %} 
+                    {# L'utilisateur courant à le role demandé #}
+                    {% set access = true %}
+                    {# <div> user has role </div> #}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {# Si pas de droits spécifiques demandés #}
+            {% set access = true %}
+        {% endfor %}
+        {# <div> Final access = {{access}}</div> #}
+        {% if access %}
+            {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildContent", {'pageContent': sContent})) }}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <div class="defaultError">
+        {{ notfoundmessage }}
+        {# Erreur: le contenu par défaut en position {selectposition} doit être défini dans la base. #}
+    </div>
+{% endif %}

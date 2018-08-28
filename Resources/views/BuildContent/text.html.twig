@@ -1,0 +1,6 @@
+{% if pageContent %}
+<div class="{{ pageContent.position }} {{ pageContent.content.class }}">
+    <div class="hcontent.content.title">{{ pageContent.content.title }}</div>
+    <div class="hcontent.content.content">{{ pageContent.content.content | raw }}</div>
+</div>
+{% endif %}

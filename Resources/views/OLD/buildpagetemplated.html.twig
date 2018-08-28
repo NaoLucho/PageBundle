@@ -1,0 +1,148 @@
+{# {% extends "MNHNAdminBundle::builder_layout.html.twig" %} #}
+{% extends 'templates/default.html.twig' %}
+
+{% block title %}{% if page %}{% if page.seoTitle != '' %}{{ page.seoTitle }} - {{ parent() }}{% else %}{% if page.name != '' %}{{ page.name }} - {{ parent() }}{% else %}{{ parent() }}{% endif %}{% endif %}{% endif %}{% endblock %}
+{% block seoDescription %}{% if page %}{% if page.seoDesc != '' %}"{{ page.seoDesc }}"{% else %}{{ parent() }}{% endif %}{% endif %}{% endblock %}
+{% block seoKeywords %}{% if page %}{% if page.seoKeywords and page.seoKeywords != '' %}"{{ page.seoKeywords }}"{% else %}{{ parent() }}{% endif %}{% endif %}{% endblock %}
+
+
+{% block headermenu %}
+  {% if menuContent %}
+    {{ render(controller("MNHNAdminBundle:Builder/BuildContent:menu", {'pageContent': menuContent, 'menuName': menuContent.content.content, 'style':'main'})) }}
+  {% else %}
+    {{ parent() }}
+  {% endif %}
+{% endblock %}
+
+{% block headerbanner %}
+  {# S'il n'y a pas de header défini spécifiquement on affiche le header par defaut #}
+  {% if headerContents is empty %}
+    {{ parent() }}
+  {% else %}
+  {# Sinon pour chaque headerContent #}
+    {% for pcontent in headerContents %}
+      {# <div> CONTENU {{pcontent.content.title}} </div> #}
+      {% set access = false %}
+      {# Si des droits spécifiques sont demandés: #}
+      {% for group in pcontent.content.rights %}
+        {% if group.name == 'Users' %}
+          {% set access = true %}
+          {# <div> Access pour tous si group.name = Users </div> #}
+        {% else %}
+          {% set role = 'ROLE_'~ group.name|upper %}
+          {# <div> role need = {{role}} </div> #}
+          {% if is_granted(role) %} 
+            {# L'utilisateur courant à le role demandé #}
+            {% set access = true %}
+            {# <div> user has role </div> #}
+          {% endif %}
+        {% endif %}
+      {% else %}
+        {# Si pas de droits spécifiques demandés #}
+        {% set access = true %}
+      {% endfor %}
+      {# <div> Final access = {{access}}</div> #}
+      {% if access %}
+        {{ render(controller("MNHNAdminBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent})) }}
+      {% else %}
+        {{ parent() }}
+        {# <div> contenu {{pcontent.content.title}} non accessible! </div> #}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+{% block body %}
+
+  <h2>{% if page %}{{ page.name }}{% else %}Page inexistante{% endif %}</h2>
+  {% if notallowed %}
+    {{ include('MNHNAdminBundle:BuildPage:notallowed.html.twig') }}
+  {% else %}
+    {% for pcontent in pContents %}
+      {# <div> CONTENU {{pcontent.content.title}} </div> #}
+      {% set access = false %}
+      {# Si des droits spécifiques sont demandés: #}
+      {% for group in pcontent.content.rights %}
+        {% if group.name == 'Users' %}
+          {% set access = true %}
+          {# <div> Access pour tous si group.name = Users </div> #}
+        {% else %}
+          {% set role = 'ROLE_'~ group.name|upper %}
+          {# <div> role need = {{role}} </div> #}
+          {% if is_granted(role) %} 
+            {# L'utilisateur courant à le role demandé #}
+            {% set access = true %}
+            {# <div> user has role </div> #}
+          {% endif %}
+        {% endif %}
+      {% else %}
+        {# Si pas de droits spécifiques demandés #}
+        {% set access = true %}
+      {% endfor %}
+      {# <div> Final access = {{access}}</div> #}
+      {% if access %}
+
+
+        {% if pcontent.content.type == "Controller" %}
+          {# rendu par {{pcontent.content.content}}: #}
+          {{ render(controller(pcontent.content.content, { 'request': app.request }))}}
+        {% else %}
+          {{ render(controller("MNHNAdminBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent})) }}
+        {% endif %}
+
+
+      {% else %}
+        <div> contenu {{pcontent.content.title}} non accessible! </div>
+      {% endif %}
+    {% else %}
+      <p>Pas de contenu trouvé.</p>
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+{% block footer %}
+  {# S'il n'y a pas de footer défini spécifiquement on affiche le footer par defaut #}
+  {% if footerContents is empty %}
+    {{ parent() }}
+  {% else %}
+  {# Sinon pour chaque footerContent #}
+    {% for pcontent in footerContents %}
+      {# <div> CONTENU {{pcontent.content.title}} </div> #}
+      {% set access = false %}
+      {# Si des droits spécifiques sont demandés: #}
+      {% for group in pcontent.content.rights %}
+        {% if group.name == 'Users' %}
+          {% set access = true %}
+          {# <div> Access pour tous si group.name = Users </div> #}
+        {% else %}
+          {% set role = 'ROLE_'~ group.name|upper %}
+          {# <div> role need = {{role}} </div> #}
+          {% if is_granted(role) %} 
+            {# L'utilisateur courant à le role demandé #}
+            {% set access = true %}
+            {# <div> user has role </div> #}
+          {% endif %}
+        {% endif %}
+      {% else %}
+        {# Si pas de droits spécifiques demandés #}
+        {% set access = true %}
+      {% endfor %}
+      {# <div> Final access = {{access}}</div> #}
+      {% if access %}
+
+        {{ render(controller("MNHNAdminBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent})) }}
+      
+      {% else %}
+        {{ parent() }}
+        {# <div> contenu {{pcontent.content.title}} non accessible! </div> #}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  {% if page %}<link rel="stylesheet" href="{{ page.class }}" />{% endif %}
+  {# ICI AJOUTER css de {{page.class}} #}
+  {# Possible aussi d'ajouter un fichier js #}
+{% endblock %}

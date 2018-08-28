@@ -1,0 +1,15 @@
+{% extends 'templates/default.html.twig' %} {# Template par defaut #}
+{% set title = 'Homepage' %} {# Titre de la page - header-mea & tab du navigateur #}
+
+{% block body %}
+  {# Header-mea = Bloc photo + titre - A titre d'exemple pour le moment #}
+  <div class="header-mea">
+    <img src="{{asset('assets/images/header_001.jpg')}}" alt="Titre de l'image">
+  </div>
+  {# Fin du header-mea #}
+
+  {# Content = Contient tout ce qui concerne le contenu des pages #}
+  <div class="container content">
+    {{title}}
+  </div>
+{%  endblock %}

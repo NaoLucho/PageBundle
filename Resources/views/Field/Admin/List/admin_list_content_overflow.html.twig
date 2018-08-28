@@ -1,0 +1,10 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{% block field %}
+    {% if value is not null %}
+        {# {{ value|length > 1000 ? value|slice(0, 1000) ~ '...' : value }} #}
+        <div style="max-height:200px;overflow-y:auto">
+        {{value|raw}}
+        <div>
+    {% endif %}
+{% endblock %}

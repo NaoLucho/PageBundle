@@ -1,0 +1,146 @@
+{% extends template_repo ~ '/views/templates/default.html.twig' %}
+{# {% block title %}{{ page.name }}{% endblock %} #}
+{% if page %}
+    {% if title is not defined %}
+        {% set title = page.name %}
+    {% endif %}
+    {# Nom de l'image pour le hero de la page #}
+    {% if imageHero_exists %}
+        {% set imageHero = 'Visuel' ~ page.slug ~ '.jpg' %}
+    {% endif %}
+    
+    {% block seoTitle %}
+        {% if seoTitle is defined %}{{ seoTitle }}{% endif %}
+        {% if page.seoTitle is defined %}{{ page.seoTitle }}
+        {% else %}
+            {% if page.name is defined %}{{ page.name }} - {{ parent() }}
+            {% else %}{{ parent() }}
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+
+    {% block seoDescription %}
+        {% if seoDesc is defined %}
+            "{{ seoDesc }}"
+        {% else %}
+            {% if page.seoDesc is defined %}
+                "{{ page.seoDesc }}"
+            {% else %}
+                {{ parent() }}
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+    {% block seoKeywords %}
+        {% if page.seoKeywords is defined and page.seoKeywords != '' %}"{{ page.seoKeywords }}"
+        {% else %}{{ parent() }}
+        {% endif %}
+    {% endblock %}
+{% else %}
+  {% set title = "Page inexistante" %}
+  {% set imageHero = 'VisuelContact.jpg' %}
+{% endif %}
+
+{# TODO: create a specific template with ogXXX in portailbundle and include it here #}
+{% block ogTitle %}
+{% if page %}
+    {% if page.slug == "home" %} "OPEN: les observatoires participatifs des espèces et de la nature" {% endif %}
+    {% if page.slug == "contact" %} "Formulaire de contact – portail OPEN" {% endif %}
+    {% if page.slug == "ecosysteme-sciences-participatives" %} "L’écosystème du portail OPEN : observatoires, acteurs et réseaux" {% endif %}
+    {% if page.slug == "actus" %} "Actualités & témoignages des observatoires en biodiversité - OPEN" {% endif %}
+    {% if page.slug == "Ressources" %} "Documentation sur les sciences participatives – portail OPEN" {% endif %}
+    {% if page.slug == "liste-evenements" %} "Tous les événements en sciences participatives – portail OPEN" {% endif %}
+    {% if page.slug == "charte-du-portail" %} "Charte d'utilisation du portail OPEN" {% endif %}
+    {% if page.slug == "qui-sommes-nous" %} "Qui sommes-nous? Portail OPEN" {% endif %}
+    {% if page.slug == "FAQ" %} "FAQ - portail OPEN" {% endif %}
+    {% if page.slug == "presse" %} "Presse - portail OPEN" {% endif %}
+    {% if page.slug == "sciences-participatives" %} "Introduction sur les sciences participatives - portail OPEN" {% endif %}
+{% endif %}
+{% endblock %}
+{% block ogType %}
+    {% if page and page.slug in ["actu","ressource","fiche-evenement"] %}
+        "article"
+    {% else %}
+    "website"{% endif %}{% endblock %}
+{% block ogURL %} "{{ app.request.uri }}" {% endblock %}
+{% block ogImage %} 
+{% if page %}
+    {% if page.slug == "home" %} "http://www.open-sciences-participatives.org/uploads/img/carousel/5b0bc6db04590_VisuelHome1.jpg" {% endif %}
+    {% if page.slug == "contact" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/VisuelContact.jpg?v1" {% endif %}
+    {% if page.slug == "ecosysteme-sciences-participatives" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/Visuelecosysteme-sciences-participatives.jpg?v1" {% endif %}
+    {% if page.slug == "actus" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/VisuelArticle.jpg?v1" {% endif %}
+    {% if page.slug == "Ressources" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/VisuelRessources.jpg?v1" {% endif %}
+    {% if page.slug == "liste-evenements" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/VisuelPresse.jpg?v1" {% endif %}
+    {% if page.slug == "charte-du-portail" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/Visuelcharte-du-portail.jpg?v1" {% endif %}
+    {% if page.slug == "qui-sommes-nous" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/Visuelqui-sommes-nous.jpg?v1" {% endif %}
+    {% if page.slug == "FAQ" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/VisuelFAQ.jpg?v1" {% endif %}
+    {% if page.slug == "presse" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/Visuelpresse.jpg?v1" {% endif %}
+    {% if page.slug == "sciences-participatives" %} "http://www.open-sciences-participatives.org/OPEN_s14/assets/images/VisuelSciences_Participatives.jpg?v1" {% endif %}
+{% endif %}
+{% endblock %}
+
+{% block body %}
+    {# <h2>{% if page %}{{ page.name }}{% else %}Page inexistante{% endif %}</h2> #}
+    {% if page is null %}
+        {{ include('BuilderPageBundle:BuildPage:notexists.html.twig') }}
+    {% else %}
+        {% if notallowed %}
+            {{ include('BuilderPageBundle:BuildPage:notallowed.html.twig') }}
+        {% else %}
+            {% for pcontent in pageContents %}
+                {% set access = false %}
+                {# Si des droits spécifiques sont demandés: #}
+                {% for group in pcontent.content.rights %}
+                    {% if group.name == 'Users' %}
+                        {% set access = true %}
+                        {# <div> Access pour tous si group.name = Users </div> #}
+                    {% else %}
+                        {% set role = 'ROLE_' ~ group.name | upper %}
+                        {# <div> role need = {{role}} </div> #}
+                        {% if is_granted(role) %}
+                            {# L'utilisateur courant à le role demandé #}
+                            {% set access = true %}
+                            {# <div> user has role </div> #}
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    {# Si pas de droits spécifiques demandés #}
+                    {% set access = true %}
+                {% endfor %}
+
+                {% if access %}
+                    {% if 'MAIN' in pcontent.position %}
+                        {{ block('maincontent') }}
+                    {% else %}
+                        {{ block('content') }}
+                    {% endif %}
+                {% else %}
+                    <div>
+                        Contenu {{pcontent.content.title}} non accessible!
+                    </div>
+                {% endif %}
+            {% else %}
+                <p>Pas de contenu trouvé.</p>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block maincontent %}
+    {# {{ block('buildcontent') }} #}
+{% endblock %}
+
+{% block content %}
+    {% if id is not defined %}{% set id = 0 %}{% endif %}
+    {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent, 'request': request, 'id':id })) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% if page %}<link rel="stylesheet" href="{{ page.class }}"/>{% endif %}
+    {# ICI AJOUTER css de {{page.class}} #}
+    {# Possible aussi d'ajouter un fichier js #}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

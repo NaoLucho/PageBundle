@@ -1,0 +1,27 @@
+{% if menu %}
+{% set menu = knp_menu_get('BuilderPageBundle:Builder:buildMenu', [], {'menuName': menuName}) %}
+<div class="{{ pageContent.position }} {{ pageContent.content.class }}">
+<nav class="">{{ knp_menu_render(menu) }}</nav>
+</div>
+{% else %}
+MENU NON EXISTANT
+{% endif %}
+
+{# {% if pageContent is defined %}
+{% set menu = knp_menu_get('BuilderBundle:Builder:buildMenu', [], {'menuName': pageContent.content.content|striptags}) %}
+<div class="{{ pageContent.position }} {{ pageContent.content.class }}">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="collapse navbar-collapse" id="navbarNav">
+    {{ knp_menu_render(menu, {'currentClass': 'active', 'template': 'BuilderBundle:Menu:knp_menu.html.twig', ancestorClass: 'open'}) }}
+  </nav>
+</div>
+{% else %}
+MENU NON EXISTANT
+{% endif %}
+
+
+<style>
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+</style> #}

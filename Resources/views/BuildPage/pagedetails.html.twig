@@ -1,0 +1,40 @@
+{# Page pour administrateur => connaitre les infos relatifs à une Page
+Pour l'utiliser: Activer la route #}
+{% extends "BuilderPageBundle:OLD:builder_layout.html.twig" %}
+
+
+{% block title %}{{ parent() }} - {{ page.name }}{% endblock %}
+
+
+{% block body %}
+    <h1>{{ page.name }} -slug: {{ page.slug }}</h1>
+    <p>class= {{ page.class }}</p>
+    <p>droits= {% for group in page.rights %}
+                    ROLE_{{ group.name|upper }}
+                {% endfor %}</p>
+    <p>Seo Title = {{ page.seoTitle }}</p>
+    <p>Seo Description = {{ page.seoDesc }}</p>
+    <p>Seo Keywords= {{ page.seokeywords }}</p>
+
+    <p>Page contents:</p>
+        <ul>
+        {% for content in pageContents|sort %}
+            <li>
+                <p>content.title= {{ content.content.title }}</p>
+                <p>content.type= {{ content.content.type }}</p>
+                <p>content.class= {{ content.content.class }}</p>
+                <p>page_content.position= {{ content.position }}</p>
+                <p>
+                    droits=
+                    {% for group in content.content.rights %}
+                        ROLE_{{ group.name|upper }} 
+                    {% endfor %}
+                </p>
+                <p>{{content.content.content}}</p>{# |trim('<p>')|trim('</p>') #}
+            </li>
+        {% else %}
+            <li>Pas de contenu trouvé.</li>
+        {% endfor %}
+        </ul>
+
+{% endblock %}
