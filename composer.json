@@ -1,10 +1,10 @@
 {
-    "name": "NaoLucho/pagebundle",
+    "name": "builder/pagebundle",
     "license": "GPL-3.0+",
     "type": "bundle",
     "autoload": {
         "psr-0": {
-            "NaoLucho\\PageBundle": ""
+            "Builder\\PageBundle": ""
         }
     },
     "require": {
@@ -28,6 +28,6 @@
     "extra": {
         "ckeditor-tag": "4.7.3"
     },
-    "target-dir": "NaoLucho/PageBundle",
+    "target-dir": "Builder/PageBundle",
     "minimum-stability": "dev"
 }
