@@ -1,12 +1,19 @@
 {
-    "name": "builder/pagebundle",
+    "name": "naolucho/pagebundle",
     "license": "GPL-3.0+",
-    "type": "bundle",
-    "autoload": {
-        "psr-0": {
-            "Builder\\PageBundle": ""
+    "type": "symfony-bundle",
+    "description": "Symfony PageBundle, Manage page and Menus with database",
+    "authors": [
+        {
+            "name": "Louis Watrin",
+            "email": "louis.watrin@gmail.com",
+            "homepage": "https://www.funga.fr"
+        },
+        {
+            "name": "Aaron Hartnell",
+            "homepage": "https://www.funga.fr"
         }
-    },
+    ],
     "require": {
         "php": "^7.1",
         "doctrine/annotations": "^1.4",
@@ -25,8 +32,14 @@
         "twig/twig": "^1.0||^2.0",
         "vich/uploader-bundle": "^1.6"
     },
+    "autoload": {
+        "psr-0": {
+            "Builder\\PageBundle": ""
+        }
+    },
     "extra": {
         "ckeditor-tag": "4.7.3"
     },
+    "target-dir": "Builder/PageBundle",
     "minimum-stability": "dev"
 }
