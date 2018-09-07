@@ -8,6 +8,6 @@ class BuilderPageBundle extends Bundle
 {
     // public function getParent()
     // {
-    //     return 'MNHNPortailBundle';
+    //     return 'BuilderPageBundle';
     // }
 }

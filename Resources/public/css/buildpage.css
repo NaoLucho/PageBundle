@@ -1,0 +1,102 @@
+.info-page{
+    text-transform: uppercase;
+    letter-spacing:.05em;
+    font-style: normal;
+    color: #666;
+    font-size: 18px;
+    margin: 0px 0px 0px 20px;
+}
+.title-page{
+    font-style: normal;
+    font-weight:400;
+    font-size: 40px;
+    margin: 10px 0px 10px 0;
+}
+
+.subtitle-page{
+    color: #666;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing:.05em;
+}
+
+.nbresults{
+    color: #666;
+    font-size: 14px;
+    margin: 0px 0px 10px 0;
+
+}
+
+.img-illustration{
+    max-width: 450px;
+}
+
+.list-items .illustration img{
+    max-width: 150px;
+}
+
+.list-items .illustration{
+    margin-bottom: 4px;
+}
+
+.list-items .icon img{
+    max-width: 50px;
+}
+
+.list-items .item{
+    /* float:left; */
+    border-bottom: 1px solid #BBB; 
+    margin-bottom: 4px;
+}
+
+.list-items .item:first-child{
+    border-top: 1px solid #BBB; 
+    padding-top: 4px;
+}
+
+
+.list-items .info .title{
+    font-size: 20px;
+}
+
+.list-items .info .date{
+    color: #666;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing:.05em;
+}
+.list-items .info .content{
+    /* color: #222; */
+    overflow: hidden;
+    height: 100px;
+    line-height: 2rem;
+}
+
+.list-items .info > a{
+    float: right;
+}
+
+.single-pager{
+    width: 100%;
+}
+
+nav.single-pager ul{
+    border: 1px solid #BBB;
+    border-radius: 4px;
+    text-align: center;
+}
+nav.single-pager li{
+    display: inline-block;
+    padding-bottom: 1px;
+}
+.pagination .active{
+    font-weight: bold;
+}
+.pagination a{
+    padding: 5px;
+    color: #222;
+}
+
+.pagination a:hover{
+    background-color: #e0f0ee;
+}

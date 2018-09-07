@@ -2,56 +2,33 @@ homepage:
     path: /
     defaults: 
         _controller: FrameworkBundle:Redirect:urlRedirect
-        path: /home
+        path: /accueil
         permanent: true
 
-# portail_basetemplate:
-#     path: /basetemplate
-#     defaults: { _controller: MNHNPortailBundle:Template:basetemplate}
 
-# builder_buildpage_old:
-#     path:      /page/{slug}
-#     defaults:  { _controller: MNHNPortailBundle:Template:buildPage, slug: "home" }
-#     requirements:
-#         slug: .+
-
-
-
-
-#V2: intégration directe du template_repo défini dans parameters.yml
-# builder_buildpage2:
-#     path:      /{slug}
-#     defaults:  { _controller: MNHNPortailBundle:Template:buildPage, slug: "home" }
-
-mnhn_loginpage:
+site_loginpage:
     path:     /login/page
     defaults: { _controller: BuilderPageBundle:Builder\BuildPage:buildPage, slug: "login" }
 
-mnhn_login:
+site_login:
     path:     /login
-    # defaults: { _controller: BuilderPageBundle:Builder\BuildPage:buildPage, slug: "login" }
+    # defaults: { _controller: AdminBundle:Builder\BuildPage:buildPage, slug: "login" }
     # RENVOI vers la route de login de fosuserbundle
 
-mnhn_popup:
-    path:     /popup/{slug}
-    defaults: { _controller: BuilderPageBundle:Builder\BuildContent:buildPageContent }
+# site_popup:
+#     path:     /popup/{slug}
+#     defaults: { _controller: BuilderPageBundle:Builder\BuildContent:buildPageContent }
 
 
-builder_buildpagedetails:
-    path:      /details/{slug}
-    defaults:
-        _controller: BuilderPageBundle:Builder\BuildPage:buildPageDetails
+# FOR DEBUG PAGE:
+# builder_buildpagedetails:
+#     path:      /details/{slug}
+#     defaults:
+#         _controller: AdminBundle:Builder\BuildPage:buildPageDetails
 
 
 builder_buildpageid:
     path:      /{slug}/{id}
-    defaults:
-        _controller: BuilderPageBundle:Builder\BuildPage:buildPage
-    requirements:
-        id:  \d+
-
-builder_buildpagetab:
-    path:      /{slug}/{tab}
     defaults:
         _controller: BuilderPageBundle:Builder\BuildPage:buildPage
 
@@ -59,4 +36,4 @@ builder_buildpagetab:
 #MAIN ROUTE ALL MATCH:
 builder_buildpage:
     path:      /{slug}/
-    defaults:  { _controller: BuilderPageBundle:Builder\BuildPage:buildPage, slug: "home" }
+    defaults:  { _controller: BuilderPageBundle:Builder\BuildPage:buildPage, slug: "accueil" }

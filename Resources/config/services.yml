@@ -1,9 +1,1 @@
 services:
-#    mnhn_admin.example:
-#        class: MNHN\AdminBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
-  # app.twig.external_link:
-  #       class: MNHN\AdminBundle\Twig\ExternalLinkFilter
-  #       public: false
-  #       tags:
-  #           - { name: twig.extension }

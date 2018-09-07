@@ -1,0 +1,34 @@
+{% extends "::builder_base_layout.html.twig" %}
+
+{% block title %}
+    {% if title is defined and title != 'ACCUEIL' %}{{title}} - {{ parent() }}
+    {% else %}{{ parent() }} - Articles accessibles et faciles à lire. FALC Ados, adultes
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+    {{ render(controller("AdminBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }}
+{% endblock %}
+
+{% block menu %}
+    <div id="menu">
+        {{ render(controller("AdminBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Menu'})) }}
+      {# {{ render(controller("AdminBundle:Builder/BuildContent:menuPrincipal", {'menuName': 'Principal', 'request': (request is defined ? request : app.request )})) }} #}
+    </div>
+{% endblock %}
+
+{% block body %}
+    Default
+{% endblock %}
+
+{% block footer %}
+    {{ render(controller("AdminBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Footer'})) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# Possible aussi d'ajouter un fichier js #}
+    {% stylesheets '@AdminBundle/Resources/public/css/body_layout.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %} 
+{% endblock %}

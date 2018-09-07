@@ -1,4 +1,4 @@
-{# {% extends "MNHNAdminBundle::builder_layout.html.twig" %} #}
+{# {% extends "BuilderPageBundle::builder_layout.html.twig" %} #}
 {% extends template_repo ~'/views/templates/default.html.twig' %}
 {% if page %}{% set title = page.name %}{% endif %}
 {% block title %}{% if page %}{% if page.seoTitle != '' %}{{ page.seoTitle }} - {{ parent() }}{% else %}{% if page.name != '' %}{{ page.name }} - {{ parent() }}{% else %}{{ parent() }}{% endif %}{% endif %}{% endif %}{% endblock %}
@@ -8,7 +8,7 @@
 {% block body %}
     {# <h2>{% if page %}{{ page.name }}{% else %}Page inexistante{% endif %}</h2> #}
     {% if notallowed %}
-      {{ include('MNHNAdminBundle:BuildPage:notallowed.html.twig') }}
+      {{ include('BuilderPageBundle:BuildPage:notallowed.html.twig') }}
     {% else %}
       {% for pcontent in pContents %}
         {# <div> CONTENU {{pcontent.content.title}} </div> #}
@@ -38,7 +38,7 @@
           {#{% if pcontent.content.type == "Controller" %}  
             {{ render(controller(pcontent.content.content, { 'request': app.request }))}}
           {% else %} #}
-            {{ render(controller("MNHNAdminBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent, 'request': app.request })) }}
+            {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent, 'request': app.request })) }}
           {#{% endif %} #}
 
 

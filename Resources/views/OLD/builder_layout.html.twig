@@ -1,16 +1,16 @@
 {% extends "::OLD:builder_base_layout.html.twig" %}
 
-{% block title %}MNHN - {{ parent() }}{% endblock %}
+{% block title %}Site - {{ parent() }}{% endblock %}
 
 {% block header %}
-    {{ render(controller("MNHNAdminBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }}
+    {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }}
 {% endblock %}
 
 {% block menu %}
     {# <div id="menu">
-      {{ render(controller("MNHNAdminBundle:Builder/BuildContent:menu", {'menuName': 'Principal', 'style':'main'})) }}
+      {{ render(controller("BuilderPageBundle:Builder/BuildContent:menu", {'menuName': 'Principal', 'style':'main'})) }}
     </div> #}
-    {{ render(controller("MNHNAdminBundle:Builder/BuildPage:menuPrincipal", {'menuName': 'Principal'})) }}
+    {{ render(controller("BuilderPageBundle:Builder/BuildPage:menuPrincipal", {'menuName': 'Principal'})) }}
 {% endblock %}
 
 {% block body %}
@@ -18,5 +18,5 @@
 {% endblock %}
 
 {% block footer %}
-    {{ render(controller("MNHNAdminBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Footer'})) }}
+    {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Footer'})) }}
 {% endblock %}

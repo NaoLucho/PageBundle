@@ -23,7 +23,7 @@ class BuildContentController extends Controller
         return $this->render('BuilderPageBundle:BuildPage:buildcontents.html.twig', array(
             'page' => $page,
             'contents' => $selectContents,
-            'notfoundmessage' => 'Erreur: le contenu par défaut en position ' . selectposition .' doit être défini dans la base.'
+            'notfoundmessage' => 'Erreur: le contenu par défaut en position ' . $selectposition . ' doit être défini dans la base.'
         ));
         // foreach($selectContents as $sContent)
         // {
@@ -74,7 +74,7 @@ class BuildContentController extends Controller
                 break;
             case "Controller":
                 //$this->generateUrl('my_login_path');
-                return $this->forward(strip_tags($pageContent->getContent()->getContent()), ['request' => $request, 'id' => $id]);
+                return $this->forward(strip_tags($pageContent->getContent()->getContent()), ['request' => $request, 'id' => $id, 'pageContent' => $pageContent]);
                 break;
                 
             default: //Text
@@ -250,34 +250,37 @@ class BuildContentController extends Controller
         $i = 0;
 
         $user = $this->getUser();
-        foreach($menu->getMenuPages() as $menuPage)
-        {
+        if ($menu != null) {
+            foreach ($menu->getMenuPages() as $menuPage) {
             //VERIFIER LES DROITS D'ACCES A LA PAGE:
             // On vérifie que l'utilisateur dispose bien du rôle demandé au niveau de la page:
             // $hasPageRights = true si le group Users est indiqué
             // Sinon on controlle si le user a le group demandé
             // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
-            $hasPageRights = false;
-            foreach ($menuPage->getPage()->getRights() as $group) {
-                if ($group->getName() == "Users") {
-                    $hasPageRights = true; //All users acce
-                    break;
-                } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
-                {
-                    $hasPageRights = true; // users has rights
-                    break;
+                $hasPageRights = false;
+                if (count($menuPage->getPage()->getRights()) == 0) {
+                    $hasPageRights = true;
+                }
+                foreach ($menuPage->getPage()->getRights() as $group) {
+                    if ($group->getName() == "All") {
+                        $hasPageRights = true; //All users acce
+                        break;
+                    } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
+                    {
+                        $hasPageRights = true; // users has rights
+                        break;
+                    }
+                }
+
+                if ($hasPageRights) {
+                    $links[$i]["title"] = $menuPage->getPage()->getName();
+                    $links[$i]["path"] = $menuPage->getPage()->getSlug();
+                    $i = $i + 1;
                 }
             }
-
-            if($hasPageRights)
-            {
-                $links[$i]["title"] = $menuPage->getPage()->getName();
-                $links[$i]["path"] = $menuPage->getPage()->getSlug();
-                $i = $i +1;
-            }
         }
-        
-        return $this->render(':'.$this->container->getParameter('template_repo').'/views/parts:main-menu.html.twig', array(
+
+        return $this->render(':' . $this->container->getParameter('template_repo') . '/views/parts:main-menu.html.twig', array(
             'links' => $links,
             'baserequest' => $baserequest,
             'currentslug' => $currentslug
@@ -301,34 +304,37 @@ class BuildContentController extends Controller
         $i = 0;
 
         $user = $this->getUser();
-        foreach($menu->getMenuPages() as $menuPage)
-        {
+        if ($menu != null) {
+            foreach ($menu->getMenuPages() as $menuPage) {
             //VERIFIER LES DROITS D'ACCES A LA PAGE:
             // On vérifie que l'utilisateur dispose bien du rôle demandé au niveau de la page:
             // $hasPageRights = true si le group Users est indiqué
             // Sinon on controlle si le user a le group demandé
             // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
-            $hasPageRights = false;
-            foreach ($menuPage->getPage()->getRights() as $group) {
-                if ($group->getName() == "Users") {
-                    $hasPageRights = true; //All users acce
-                    break;
-                } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
-                {
-                    $hasPageRights = true; // users has rights
-                    break;
+                $hasPageRights = false;
+                if (count($menuPage->getPage()->getRights()) == 0) {
+                    $hasPageRights = true;
+                }
+                foreach ($menuPage->getPage()->getRights() as $group) {
+                    if ($group->getName() == "All") {
+                        $hasPageRights = true; //All users acce
+                        break;
+                    } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
+                    {
+                        $hasPageRights = true; // users has rights
+                        break;
+                    }
+                }
+
+                if ($hasPageRights) {
+                    $links[$i]["title"] = $menuPage->getPage()->getName();
+                    $links[$i]["path"] = $menuPage->getPage()->getSlug();
+                    $i = $i + 1;
                 }
             }
-
-            if($hasPageRights)
-            {
-                $links[$i]["title"] = $menuPage->getPage()->getName();
-                $links[$i]["path"] = $menuPage->getPage()->getSlug();
-                $i = $i +1;
-            }
         }
-        
-        return $this->render(':'.$this->container->getParameter('template_repo').'/views/parts:footer-menu.html.twig', array(
+
+        return $this->render(':' . $this->container->getParameter('template_repo') . '/views/parts:footer-menu.html.twig', array(
             'links' => $links,
         ));
     }

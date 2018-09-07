@@ -1,4 +1,4 @@
-{% extends "MNHNAdminBundle:OLD:builder_layout.html.twig" %}
+{% extends "BuilderPageBundle::builder_layout.html.twig" %}
 
 
 {% block title %}{% if page %}{% if page.seoTitle != '' %}{{ page.seoTitle }} - {{ parent() }}{% else %}{% if page.name != '' %}{{ page.name }} - {{ parent() }}{% else %}{{ parent() }}{% endif %}{% endif %}{% endif %}{% endblock %}
@@ -35,7 +35,7 @@
       {% endfor %}
       {# <div> Final access = {{access}}</div> #}
       {% if access %}
-        {{ render(controller("MNHNAdminBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent})) }}
+        {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent})) }}
       {% else %}
         {{ parent() }}
         {# <div> contenu {{pcontent.content.title}} non accessible! </div> #}
@@ -48,7 +48,7 @@
 {% block menu %}
   {% if menuContent %}
     <div id="menu">
-      {{ render(controller("MNHNAdminBundle:Builder/BuildContent:menu", {'pageContent': menuContent, 'menuName': menuContent.content.content, 'style':'main'})) }}
+      {{ render(controller("BuilderPageBundle:Builder/BuildContent:menu", {'pageContent': menuContent, 'menuName': menuContent.content.content, 'style':'main'})) }}
     </div>
   {% else %}
     {{ parent() }}
@@ -60,7 +60,7 @@
 
   <h2>{% if page %}{{ page.name }}{% else %}Page inexistante{% endif %}</h2>
   {% if notallowed %}
-    {{ include('MNHNAdminBundle:BuildPage:notallowed.html.twig') }}
+    {{ include('BuilderPageBundle:BuildPage:notallowed.html.twig') }}
   {% else %}
     {% for pcontent in pContents %}
       {# <div> CONTENU {{pcontent.content.title}} </div> #}
@@ -91,7 +91,7 @@
           {# rendu par {{pcontent.content.content}}: #}
           {{ render(controller(pcontent.content.content, { 'request': app.request }))}}
         {% else %}
-          {{ render(controller("MNHNAdminBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent})) }}
+          {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent})) }}
         {% endif %}
 
 
@@ -134,7 +134,7 @@
       {# <div> Final access = {{access}}</div> #}
       {% if access %}
 
-        {{ render(controller("MNHNAdminBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent})) }}
+        {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent})) }}
       
       {% else %}
         {{ parent() }}

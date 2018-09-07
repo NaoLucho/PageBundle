@@ -1,7 +1,6 @@
 <?php
 namespace Builder\PageBundle\Menu;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -23,6 +22,7 @@ class Builder extends Controller implements ContainerAwareInterface
         $menuprincipal = $em->getRepository('BuilderPageBundle:Menu')
         ->findOneBy(array('name' => $menuName));
         
+        //dump($menuName);
         if($menuprincipal != null && $menuprincipal->getMenuPages() != null)
         {
             //$parentName = "";
@@ -40,7 +40,7 @@ class Builder extends Controller implements ContainerAwareInterface
                 // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
                 $hasPageRights = false;
                 foreach ($menuPage->getPage()->getRights() as $group) {
-                    if ($group->getName() == "Users") {
+                    if ($group->getName() == "All") {
                         $hasPageRights = true; //All users acce
                         break;
                     } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
@@ -70,26 +70,19 @@ class Builder extends Controller implements ContainerAwareInterface
                             $menuprev = $menuprev->getParent();
                         }
                         $menuprev->setAttribute('dropdown', 1);
+    
                     }
+                    
                     $menuprev = $menuprev->addChild(
                         $menuPage->getPage()->getName(),
                         //$add.'#'. $menuPage->getPage()->getName(). $menuPage->getPosition(),
-                        
                         array(
                             'route' => 'builder_buildpage',
                             'routeParameters' => array('slug' => $menuPage->getPage()->getSlug()),
-                            // 'extras' => [
-                            //     'routes' => [
-                            //         [
-                            //             'route' => 'thread_show',
-                            //             'parameters' => ['categorySlug' => $category->getSlug()]
-                            //         ],
-                            //     ],
-                            // ],
+                            //'attributes' => array('dropdown' => 1)
                         )
                     );
-                    dump($menuprev);
-                    //$menuprev->setCurrentUri($this->container->get('request')->getRequestUri());
+                    
                     // $menuItem->getLevel();
                     // $menuItem->getParent();
 

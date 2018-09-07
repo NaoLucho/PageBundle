@@ -38,7 +38,7 @@ class BuildPageController extends Controller
         if ($page != null) { //CREATE PAGE CONTENT FROM DATABASE
                 //VERIFICATION DES DROITS D'ACCES A LA PAGE
             foreach ($page->getRights() as $group) {
-                if ($group->getName() == "Users") {
+                if ($group->getName() == "All") {
                     $hasPageRights = true; //All users can access
                     break;
                 } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
@@ -99,9 +99,9 @@ class BuildPageController extends Controller
         $pagetemplate = 'BuilderPageBundle:BuildPage:buildpage.html.twig';
         
         //if tempate exists in $template_repo use it?
-        if ($this->get('twig')->getLoader()->exists(':' . $template_repo . '/views:' . $slug . '.html.twig')) {
-            $pagetemplate = ':' . $template_repo . '/views:' . $slug . '.html.twig';
-        }
+        // if ($this->get('twig')->getLoader()->exists(':' . $template_repo . '/views:' . $slug . '.html.twig')) {
+        //     $pagetemplate = ':' . $template_repo . '/views:' . $slug . '.html.twig';
+        // }
         
         return $this->render($pagetemplate, array(
             'slug' => $slug,
@@ -139,7 +139,7 @@ class BuildPageController extends Controller
     }
     
     //OLD NOT USED
-    public function buildPageWithTemplateAction($slug = "home", Request $request)
+    public function buildPageWithTemplateAction($slug = "home", $id = 0, $tab = '', Request $request)
     {
 
         $page = $this->get('doctrine.orm.entity_manager')
