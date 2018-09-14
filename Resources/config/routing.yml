@@ -12,7 +12,7 @@ site_loginpage:
 
 site_login:
     path:     /login
-    # defaults: { _controller: AdminBundle:Builder\BuildPage:buildPage, slug: "login" }
+    # defaults: { _controller: BuilderPageBundle:Builder\BuildPage:buildPage, slug: "login" }
     # RENVOI vers la route de login de fosuserbundle
 
 # site_popup:
@@ -24,7 +24,7 @@ site_login:
 # builder_buildpagedetails:
 #     path:      /details/{slug}
 #     defaults:
-#         _controller: AdminBundle:Builder\BuildPage:buildPageDetails
+#         _controller: BuilderPageBundle:Builder\BuildPage:buildPageDetails
 
 
 builder_buildpageid:

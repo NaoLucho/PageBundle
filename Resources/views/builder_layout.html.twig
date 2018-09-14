@@ -7,13 +7,13 @@
 {% endblock %}
 
 {% block header %}
-    {{ render(controller("AdminBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }}
+    {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }}
 {% endblock %}
 
 {% block menu %}
     <div id="menu">
-        {{ render(controller("AdminBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Menu'})) }}
-      {# {{ render(controller("AdminBundle:Builder/BuildContent:menuPrincipal", {'menuName': 'Principal', 'request': (request is defined ? request : app.request )})) }} #}
+        {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Menu'})) }}
+      {# {{ render(controller("BuilderPageBundle:Builder/BuildContent:menuPrincipal", {'menuName': 'Principal', 'request': (request is defined ? request : app.request )})) }} #}
     </div>
 {% endblock %}
 
@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block footer %}
-    {{ render(controller("AdminBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Footer'})) }}
+    {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Footer'})) }}
 {% endblock %}
 
 {% block stylesheets %}

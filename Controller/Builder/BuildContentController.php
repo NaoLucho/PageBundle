@@ -7,6 +7,7 @@ use Builder\PageBundle\Controller\Builder\Utils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class BuildContentController extends Controller
 {
     //Contents of default page with filtered position: selectposition*
@@ -20,15 +21,26 @@ class BuildContentController extends Controller
             $pageContents = $page->getPageContents();
             $selectContents = Utils::filterPageContentPositionStartWith($pageContents, $selectposition);
         }
+        //dump($selectContents);
         return $this->render('BuilderPageBundle:BuildPage:buildcontents.html.twig', array(
             'page' => $page,
             'contents' => $selectContents,
             'notfoundmessage' => 'Erreur: le contenu par défaut en position ' . $selectposition . ' doit être défini dans la base.'
         ));
-        // foreach($selectContents as $sContent)
-        // {
-        //     return $this->buildContentAction($sContent, $request);
-        // }
+    }
+
+    public function buildCardAction($contentName, Request $request)
+    {
+        $content = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('BuilderPageBundle:Content')
+            ->findOneBy(array('title' => $contentName));
+        
+        $pageContent = new \Builder\PageBundle\Entity\Page_Content();
+        $pageContent->setPage(new \Builder\PageBundle\Entity\Page());
+        $pageContent->setContent($content);
+        return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
+            'pageContent' => $pageContent
+        ));
     }
 
     //ONLY CONTENT, peut être utilisé dans un popup par exemple
@@ -76,7 +88,22 @@ class BuildContentController extends Controller
                 //$this->generateUrl('my_login_path');
                 return $this->forward(strip_tags($pageContent->getContent()->getContent()), ['request' => $request, 'id' => $id, 'pageContent' => $pageContent]);
                 break;
-                
+            case "Card":
+                return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
+                    'pageContent' => $pageContent
+                ));
+                break;
+            case "Carousel":
+                //recupérer le carousel avec pageContent.content = carousel name 
+                $carousel = $this->get('doctrine.orm.entity_manager')
+                    ->getRepository('BuilderPageBundle:Carousel')
+                    ->findBy(array('carousel' => strip_tags($pageContent->getContent()->getContent())));
+                //le transmettre à la vue
+
+                return $this->render('BuilderPageBundle:BuildContent:carousel.html.twig', array(
+                    'carousel' => $carousel
+                ));
+                break;
             default: //Text
                 return $this->render('BuilderPageBundle:BuildContent:text.html.twig', array(
                     'pageContent' => $pageContent

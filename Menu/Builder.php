@@ -72,9 +72,12 @@ class Builder extends Controller implements ContainerAwareInterface
                         $menuprev->setAttribute('dropdown', 1);
     
                     }
-                    
+                    $name = $menuPage->getPage()->getName();
+                    // if($name == "ACCUEIL"){
+                    //     $name = '<img src="/Sites/AccentTonique/Site/web/assets/LOGO-accent-tonique-2017.jpg" alt="AccentTonique" height="50px" />';
+                    // }
                     $menuprev = $menuprev->addChild(
-                        $menuPage->getPage()->getName(),
+                        $name,
                         //$add.'#'. $menuPage->getPage()->getName(). $menuPage->getPosition(),
                         array(
                             'route' => 'builder_buildpage',

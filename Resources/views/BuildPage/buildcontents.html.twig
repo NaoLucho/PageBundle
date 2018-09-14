@@ -4,7 +4,7 @@
         {% set access = false %}
         {# Si des droits spécifiques sont demandés: #}
         {% for group in sContent.content.rights %}
-            {% if group.name == 'Users' %}
+            {% if group.name == 'All' %}
                 {% set access = true %}
                 {# <div> Access pour tous si group.name = Users </div> #}
             {% else %}
@@ -20,7 +20,7 @@
             {# Si pas de droits spécifiques demandés #}
             {% set access = true %}
         {% endfor %}
-        {# <div> Final access = {{access}}</div> #}
+        {# <div> Final access = {{access?"true":"false"}}</div> #}
         {% if access %}
             {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildContent", {'pageContent': sContent})) }}
         {% endif %}

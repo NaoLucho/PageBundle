@@ -68,9 +68,10 @@ class BuildPageController extends Controller
             $imageHero_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $this->container->getParameter('template_repo') . '/assets/images/' . $filename);
                 
             //ADD CARROUSEL
-            if ($page->getSlug() === "home") {
+            if ($page->getSlug() === "accueil") {
                 $carousel = $em->getRepository('BuilderPageBundle:Carousel')->findAll();
             }
+            dump($carousel);
 
             // if pcontent.content is Controller => need to forward it:
             if ($mainController != null) {

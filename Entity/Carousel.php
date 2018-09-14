@@ -29,6 +29,13 @@ class Carousel
     /**
      * @var string
      *
+     * @ORM\Column(name="carousel", type="string", length=255)
+     */
+    private $carousel;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
@@ -81,6 +88,30 @@ class Carousel
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set carousel.
+     *
+     * @param string $carousel
+     *
+     * @return Carousel
+     */
+    public function setCarousel($carousel)
+    {
+        $this->carousel = $carousel;
+
+        return $this;
+    }
+
+    /**
+     * Get carousel.
+     *
+     * @return string
+     */
+    public function getCarousel()
+    {
+        return $this->carousel;
     }
 
     /**
