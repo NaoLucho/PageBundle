@@ -14,7 +14,11 @@ class CarouselAdmin extends AbstractAdmin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper
+        $formMapper  
+            ->add('carousel', 'text', array(
+                'label' => 'Nom du carousel',
+                'required' => true
+            ))
             ->add('title', 'text', array(
                 'label' => 'Titre',
                 'required' => true
@@ -34,6 +38,7 @@ class CarouselAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('carousel')
             ->add('title')
             ->add('content');
     }

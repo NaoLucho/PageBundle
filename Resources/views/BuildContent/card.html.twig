@@ -1,0 +1,13 @@
+<div class="col-sm-6 mb-4" style="position: relative; left: 0px;">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="icon-title">
+                <i class="fas fa-{{ pageContent.content.class }}"></i>
+            </div>
+            <h4 class="card-title">
+                <span>{{pageContent.content.title}}</span>
+            </h4>
+            {{ pageContent.content.content | raw }}
+        </div>
+    </div>
+</div>
