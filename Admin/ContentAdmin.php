@@ -11,6 +11,21 @@ use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 
 class ContentAdmin extends AbstractAdmin
 {
+    //to add template for fields
+    public function getTemplate($name)
+    {
+        dump($name);
+        switch ($name) {
+            case 'list':
+                //var_dump( parent::getTemplate($name));
+                return 'BuilderPageBundle::Field\Admin\admincontent_list_template.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+    
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
