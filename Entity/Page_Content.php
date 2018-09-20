@@ -30,6 +30,7 @@ class Page_Content
     /**
      * @ORM\ManyToOne(targetEntity="Builder\PageBundle\Entity\Content", inversedBy="pageContents")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id", nullable=false)
+     * @ORM\OrderBy({"type" = "ASC"})
      */
     private $content;
 

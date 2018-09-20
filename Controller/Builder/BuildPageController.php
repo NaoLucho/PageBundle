@@ -71,7 +71,7 @@ class BuildPageController extends Controller
             if ($page->getSlug() === "accueil") {
                 $carousel = $em->getRepository('BuilderPageBundle:Carousel')->findAll();
             }
-            dump($carousel);
+            //dump($request);
 
             // if pcontent.content is Controller => need to forward it:
             if ($mainController != null) {

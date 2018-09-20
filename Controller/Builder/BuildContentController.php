@@ -104,6 +104,11 @@ class BuildContentController extends Controller
                     'carousel' => $carousel
                 ));
                 break;
+            case "Form":
+                //Faire le rendu du formulaire
+                //dump($request);
+                return $this->forward('BuilderFormBundle:Form:show', ['request' => $request, 'id' => $id, 'pageContent' => $pageContent]);
+                break;
             default: //Text
                 return $this->render('BuilderPageBundle:BuildContent:text.html.twig', array(
                     'pageContent' => $pageContent

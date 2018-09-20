@@ -12,6 +12,7 @@ class Page_ContentAdmin extends AbstractAdmin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+
         $formMapper
         //     ->add('page', 'sonata_type_model', array(
         //     'class' => 'Builder\PageBundle\Entity\Page',
@@ -21,7 +22,7 @@ class Page_ContentAdmin extends AbstractAdmin
         // ))
             ->add('content', 'sonata_type_model', array(
             'class' => 'Builder\PageBundle\Entity\Content',
-            'property' => 'title',
+            'property' => 'fullname',
             'label' => 'Contenu',
             'multiple' => false,
             'btn_add' => false,

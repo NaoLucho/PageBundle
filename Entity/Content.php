@@ -247,5 +247,9 @@ class Content
     {
         return $this->class;
     }
+
+    public function getFullname(){
+        return $this->type .": ". $this->title;
+    }
 }
 

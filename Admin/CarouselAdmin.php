@@ -11,9 +11,29 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CarouselAdmin extends AbstractAdmin
 {
+
+    //to add template for fields
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                //var_dump( parent::getTemplate($name));
+                return 'BuilderPageBundle::Field\Admin\admin_form_template.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $entity = $formMapper->getAdmin()->getSubject();
+        $imageFileExists = false;
+        if($entity->getImageName() != null)
+        {
+            $imageFileExists = true;
+        }
         $formMapper  
             ->add('carousel', 'text', array(
                 'label' => 'Nom du carousel',
@@ -21,15 +41,15 @@ class CarouselAdmin extends AbstractAdmin
             ))
             ->add('title', 'text', array(
                 'label' => 'Titre',
-                'required' => true
+                'required' => false
             ))
             ->add('content', 'text', array(
                 'label' => 'Contenu',
-                'required' => true
+                'required' => false
             ))
             ->add('imageFile', FileType::class, array(
                 'label' => 'Image',
-                'required' => true
+                'required' => !$imageFileExists
             ))
             ;
     }
@@ -47,6 +67,8 @@ class CarouselAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->addIdentifier('id')
+            ->add('carousel')
             ->addIdentifier('title', null, array(
                 'label' => "Titre"
             ))

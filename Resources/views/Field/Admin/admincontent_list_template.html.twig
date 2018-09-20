@@ -1,0 +1,12 @@
+
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/select2/select2_bootstrap.css') }}" /> 
+    
+    {# css buidler #} {% stylesheets '@AdminBundle/Resources/public/css/main.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" /> {% endstylesheets %}
+{% endblock %}
