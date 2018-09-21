@@ -1,0 +1,51 @@
+{
+    "name": "naolucho/pagebundle",
+    "license": "GPL-3.0+",
+    "type": "symfony-bundle",
+    "description": "Symfony PageBundle, Manage page and Menus with database",
+    "keywords": ["Page", "Menu", "ckeditor", "sonata", "fosuser"],
+    "authors": [
+        {
+            "name": "Louis Watrin",
+            "email": "louis.watrin@gmail.com",
+            "homepage": "https://www.funga.fr"
+        },
+        {
+            "name": "Aaron Hartnell",
+            "homepage": "https://www.funga.fr"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "doctrine/annotations": "^1.4",
+        "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/orm": "^2.5",
+        "egeloen/ckeditor-bundle": "^6.0",
+        "friendsofsymfony/user-bundle": "2.0.2",
+        "incenteev/composer-parameter-handler": "^2.0",
+        "knplabs/knp-menu-bundle": "^2.0",
+        "nelmio/api-doc-bundle": "^2.13",
+        "sensio/distribution-bundle": "^5.0.19",
+        "sensio/framework-extra-bundle": "^3.0.2",
+        "sonata-project/admin-bundle": "^3.23",
+        "sonata-project/block-bundle": "^3.4",
+        "sonata-project/doctrine-orm-admin-bundle": "^3.1",
+        "sonata-project/easy-extends-bundle": "^2.2",
+        "sonata-project/media-bundle": "^3.8",
+        "sonata-project/user-bundle": "dev-master",
+        "symfony/symfony": "v3.4.4",
+        "twig/extensions": "^1.5",
+        "twig/twig": "^1.0||^2.0",
+        "vich/uploader-bundle": "^1.6"
+    },
+    "autoload": {
+        "psr-0": {
+            "Builder\\PageBundle": ""
+        }
+    },
+    "extra": {
+        "ckeditor-tag": "4.7.3"
+    },
+    "target-dir": "Builder/PageBundle",
+    "minimum-stability": "dev"
+}
