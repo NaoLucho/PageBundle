@@ -40,12 +40,11 @@
     },
     "autoload": {
         "psr-0": {
-            "aaa": "bbb"
+            "Builder\\PageBundle": ""
         }
     },
     "extra": {
         "ckeditor-tag": "4.7.3"
     },
-    "target-dir": "ccc",
     "minimum-stability": "dev"
 }
