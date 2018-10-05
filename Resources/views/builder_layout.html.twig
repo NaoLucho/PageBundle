@@ -11,10 +11,14 @@
 {% endblock %}
 
 {% block menu %}
-    <div id="menu">
-        {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Menu'})) }}
-      {# {{ render(controller("BuilderPageBundle:Builder/BuildContent:menuPrincipal", {'menuName': 'Principal', 'request': (request is defined ? request : app.request )})) }} #}
+    <div id="menu" data-start="@class: no" data--10-top="@class: fixnav">
+        {% if app.request.attributes.get('_route') != "builder_buildpage_username" %}
+            {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Menu'})) }}
+        {% else %}
+            {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'UserMenu', 'request': request})) }}
+        {% endif %}
     </div>
+    
 {% endblock %}
 
 {% block body %}

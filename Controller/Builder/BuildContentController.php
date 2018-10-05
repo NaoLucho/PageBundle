@@ -25,6 +25,7 @@ class BuildContentController extends Controller
         return $this->render('BuilderPageBundle:BuildPage:buildcontents.html.twig', array(
             'page' => $page,
             'contents' => $selectContents,
+            'request' => $request,
             'notfoundmessage' => 'Erreur: le contenu par défaut en position ' . $selectposition . ' doit être défini dans la base.'
         ));
     }
@@ -71,8 +72,10 @@ class BuildContentController extends Controller
                 ));
                 break;
             case "MainMenu":
+                dump($request);
                 return $this->render('BuilderPageBundle:BuildContent:menu.html.twig', array(
-                    'pageContent' => $pageContent
+                    'pageContent' => $pageContent,
+                    'request' => $request
                 ));
                 break;
             case "Content":
@@ -88,9 +91,22 @@ class BuildContentController extends Controller
                 //$this->generateUrl('my_login_path');
                 return $this->forward(strip_tags($pageContent->getContent()->getContent()), ['request' => $request, 'id' => $id, 'pageContent' => $pageContent]);
                 break;
-            case "Card":
+            case "Card2":
                 return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
-                    'pageContent' => $pageContent
+                    'pageContent' => $pageContent,
+                    'col' => 6
+                ));
+                break;
+            case "Card1":
+                return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
+                    'pageContent' => $pageContent,
+                    'col' => 12
+                ));
+                break;
+            case "Card3":
+                return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
+                    'pageContent' => $pageContent,
+                    'col' => 4
                 ));
                 break;
             case "Carousel":

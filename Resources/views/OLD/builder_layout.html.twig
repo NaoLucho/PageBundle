@@ -10,7 +10,7 @@
     {# <div id="menu">
       {{ render(controller("BuilderPageBundle:Builder/BuildContent:menu", {'menuName': 'Principal', 'style':'main'})) }}
     </div> #}
-    {{ render(controller("BuilderPageBundle:Builder/BuildPage:menuPrincipal", {'menuName': 'Principal'})) }}
+    {{ render(controller("BuilderPageBundle:Builder/BuildPage:menuPrincipal", {'menuName': 'Principal', 'request': request})) }}
 {% endblock %}
 
 {% block body %}

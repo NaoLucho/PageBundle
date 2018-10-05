@@ -15,9 +15,9 @@ site_login:
     # defaults: { _controller: BuilderPageBundle:Builder\BuildPage:buildPage, slug: "login" }
     # RENVOI vers la route de login de fosuserbundle
 
-# site_popup:
-#     path:     /popup/{slug}
-#     defaults: { _controller: BuilderPageBundle:Builder\BuildContent:buildPageContent }
+site_popup:
+    path:     /popup/{slug}
+    defaults: { _controller: BuilderPageBundle:Builder\BuildContent:buildPageContent }
 
 
 # FOR DEBUG PAGE:
