@@ -13,7 +13,7 @@ class BuildPageController extends Controller
     // CHARGE LE CONTENU DE LA PAGE:
     // 1: Charge le template twig s'il existe dans app/"%template_repo%"/views:'.$slug.'.html.twig'
     // 2: sinon si le slug correspond à une Page, charge la page avec le builder
-    public function buildPageAction($slug, $id = 0, $tab = '', Request $request)
+    public function buildPageAction($slug, $id = 0, $tab = '', $username = '', Request $request)
     {
         //dump($request);
         //$template_repo is repository of OPEN version : OPEN_241117

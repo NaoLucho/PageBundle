@@ -22,7 +22,7 @@
         {% endfor %}
         {# <div> Final access = {{access?"true":"false"}}</div> #}
         {% if access %}
-            {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildContent", {'pageContent': sContent})) }}
+            {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildContent", {'pageContent': sContent, 'request': request})) }}
         {% endif %}
     {% endfor %}
 {% else %}
