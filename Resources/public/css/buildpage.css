@@ -29,6 +29,8 @@
 
 .img-illustration{
     max-width: 450px;
+    /* width: -moz-fit-content; */
+    width: 100%;
 }
 
 .list-items .illustration img{
@@ -100,4 +102,67 @@ nav.single-pager li{
 
 .pagination a:hover{
     background-color: #e0f0ee;
+}
+
+.block-item{
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16),0 2px 10px 0 rgba(0,0,0,.12);
+    padding: 1.25rem;
+    margin-bottom: 20px;
+}
+
+
+.block-item {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    /* grid-auto-rows: minmax(100px, auto); */
+    position: relative;
+    z-index: 15;
+    background: white;
+  }
+
+.block-item .image-item {
+    grid-column: 1;
+    grid-row: 1/5;
+}
+.block-item  .title-item { 
+    grid-column: 2/4;
+    grid-row: 1;
+}
+.block-item  .subtitle-item {
+    grid-column: 4;
+    grid-row: 1;
+}
+.block-item .type-item {
+    grid-column: 2 / 5;
+    grid-row: 2;
+}
+.block-item .content-item {
+    grid-column: 2 / 5;
+    grid-row: 3;
+}
+ 
+.block-item .comments-item{
+    grid-column: 2 / 5;
+    grid-row: 4;
+    
+    padding: 10px;
+    border: 1px solid #ddd;
+
+    /* background-color: #EEE;
+    border-radius: 1em; */
+}
+
+.comments-item .auteur{
+    float: left;
+}
+.comments-item .date{
+    float: right;
+}
+.comments-item .content{
+    clear: both;
+    background-color: #EEE;
+    border-radius: .5em;
+    padding: 0 1rem;
+    border: 1px solid #DDD;
 }
