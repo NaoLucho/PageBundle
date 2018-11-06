@@ -2,12 +2,16 @@
 
 {% block title %}
     {% if title is defined and title != 'ACCUEIL' %}{{title}} - {{ parent() }}
-    {% else %}{{ parent() }} - Articles accessibles et faciles à lire. FALC Ados, adultes
+    {% else %}{{ parent() }} - Sitebuilder
     {% endif %}
 {% endblock %}
 
 {% block header %}
-    {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }}
+    {% if app.request.attributes.get('_route') != "builder_buildpage_username" %}
+        {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }}
+    {% else %}
+        {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'UserHeader', 'request': request})) }}
+    {% endif %}
 {% endblock %}
 
 {% block menu %}
@@ -22,7 +26,7 @@
 {% endblock %}
 
 {% block body %}
-    Default
+    Default body
 {% endblock %}
 
 {% block footer %}
