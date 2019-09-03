@@ -76,13 +76,20 @@ class Builder extends Controller implements ContainerAwareInterface
                     // if($name == "ACCUEIL"){
                     //     $name = '<img src="/Sites/AccentTonique/Site/web/assets/LOGO-accent-tonique-2017.jpg" alt="AccentTonique" height="50px" />';
                     // }
+                    
+                    $routeparam = array('slug' => $menuPage->getPage()->getSlug());
+                    $attributes = [];
+                    if( $menuPage->getPage()->getClass() != ""){
+                        $attributes = array('class' => $menuPage->getPage()->getClass());
+                    }
+                        
                     $menuprev = $menuprev->addChild(
                         $name,
                         //$add.'#'. $menuPage->getPage()->getName(). $menuPage->getPosition(),
                         array(
                             'route' => 'builder_buildpage',
-                            'routeParameters' => array('slug' => $menuPage->getPage()->getSlug()),
-                            //'attributes' => array('dropdown' => 1)
+                            'routeParameters' => $routeparam,
+                            'attributes' => $attributes
                         )
                     );
                     

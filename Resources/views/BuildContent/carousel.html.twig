@@ -1,7 +1,7 @@
 {% if carousel is defined and carousel is not null %}
   {% set items = carousel %}
 {% endif %}
-<div id="carousel" class="carousel slide w-100" data-ride="carousel">
+<div id="carousel" class="carousel slide w-100 {{ pageContent.content.class }}" data-ride="carousel">
   <ol class="carousel-indicators">
     {% if items is defined %}
         {% for item in items %}
