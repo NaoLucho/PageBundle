@@ -27,8 +27,14 @@ function carouselNormalization() {
         if(window.tallest > 0){
             jQuery('#carousel .carousel-item').each(function() {
                 jQuery(this).css('height',tallest + 'px');
+                //jQuery(this).css('line-height',tallest + 'px');
+
+                //BIDOUILLAGE POUR CENTRER VERTICALEMENT L'IMAGE
+                //jQuery(this).children( "img" ).css('position','absolute').css('margin','auto').css('top','0').css('bottom','0');
             });
+
         }
+        //alert("max = "+window.tallest);
     }
     normalizeHeights();
 

@@ -31,6 +31,10 @@
     max-width: 450px;
 }
 
+.list-items{
+    width: 100%;
+}
+
 .list-items .illustration img{
     width: 150px;
 }
@@ -69,7 +73,8 @@
 .list-items .info .content{
     /* color: #222; */
     overflow: hidden;
-    height: 100px;
+    min-height: 100px;
+    max-height: 300px;
     line-height: 2rem;
 }
 

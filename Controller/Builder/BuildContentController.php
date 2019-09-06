@@ -91,8 +91,20 @@ class BuildContentController extends Controller
                 return $this->forward(strip_tags($pageContent->getContent()->getContent()), ['request' => $request, 'id' => $id, 'pageContent' => $pageContent]);
                 break;
             case "Card":
+                $sluglink = null;
+                $content_title = null;
+                $pageContent_title = $pageContent->getContent()->getTitle();
+                if($pageContent_title != null ){
+                    $title_elems = explode(">>", $pageContent_title);
+                    if(count($title_elems)>1){
+                        $content_title = $title_elems[0];
+                        $sluglink = $title_elems[1];
+                    }
+                }
                 return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
-                    'pageContent' => $pageContent
+                    'pageContent' => $pageContent,
+                    'content_title' => $content_title,
+                    'slug_link' => $sluglink
                 ));
                 break;
             case "Carousel":
