@@ -10,15 +10,9 @@
     alt="logo"
     height="52px" /> #}
     {{ knp_menu_render(menu, {'currentClass': 'active', 'template': 'BuilderPageBundle:Menu:knp_menu.html.twig', ancestorClass: 'open'}) }}
+    </div>
   </nav>
 </div>
 {% else %}
 MENU NON EXISTANT
 {% endif %}
-
-
-<style>
-.dropdown:hover>.dropdown-menu {
-  display: block;
-}
-</style>
