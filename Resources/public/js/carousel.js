@@ -20,13 +20,21 @@ function carouselNormalization() {
     function normalizeHeights() {
         jQuery('#carousel .carousel-item').each(function() { //add heights to array
             window.heights.push(jQuery(this).outerHeight());
-            //alert("size "+jQuery(this).outerHeight());
+            //alert("heights "+jQuery(this).outerHeight());
         });
-        window.tallest = Math.min.apply(null, window.heights); //cache largest value
-        //alert("min "+window.tallest);
-        jQuery('#carousel .carousel-item').each(function() {
-            jQuery(this).css('height',tallest + 'px');
-        });
+        window.tallest = Math.max.apply(null, window.heights); //cache largest value
+        //alert("max = "+window.tallest);
+        if(window.tallest > 0){
+            jQuery('#carousel .carousel-item').each(function() {
+                jQuery(this).css('height',tallest + 'px');
+                //jQuery(this).css('line-height',tallest + 'px');
+
+                //BIDOUILLAGE POUR CENTRER VERTICALEMENT L'IMAGE
+                //jQuery(this).children( "img" ).css('position','absolute').css('margin','auto').css('top','0').css('bottom','0');
+            });
+
+        }
+        //alert("max = "+window.tallest);
     }
     normalizeHeights();
 
@@ -34,7 +42,7 @@ function carouselNormalization() {
 
         window.tallest = 0, window.heights.length = 0; //reset vars
         jQuery('.carousel .carousel-item').each(function() {
-            jQuery(this).css('height','0'); //reset min-height
+            jQuery(this).css('height','auto'); //reset height
         }); 
 
         normalizeHeights(); //run it again 
@@ -43,7 +51,15 @@ function carouselNormalization() {
 
 }
 
-$("#carousel").ready(function(){
-//jQuery( document ).ready(function() {
-    carouselNormalization();
+// $("#carousel").ready(function(){
+// //jQuery( document ).ready(function() {
+//     carouselNormalization();
+// });
+
+$(function()
+{
+    $(window).bind('load', function()
+    {
+        carouselNormalization();
+    });
 });

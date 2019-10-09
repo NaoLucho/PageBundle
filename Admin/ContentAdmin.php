@@ -14,7 +14,7 @@ class ContentAdmin extends AbstractAdmin
     //to add template for fields
     public function getTemplate($name)
     {
-        dump($name);
+        // dump($name);
         switch ($name) {
             case 'list':
                 //var_dump( parent::getTemplate($name));

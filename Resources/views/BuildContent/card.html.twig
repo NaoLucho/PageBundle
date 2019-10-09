@@ -1,13 +1,20 @@
-<div class="col-md-{{col}} mb-4" style="position: relative; left: 0px;">
-    <div class="card h-100">
-        <div class="card-body">
-            <div class="icon-title">
-                <i class="fas fa-{{ pageContent.content.class }}"></i>
+<div class="col-md-6 mb-4 content-card" style="position: relative; left: 0px;">
+    {% if slug_link %}
+        <a href="{{ path('builder_buildpage', {'slug': slug_link}) }}">
+    {% endif %}
+        <div class="card h-100">
+
+            <div class="card-body">
+                <div class="icon-title">
+                    <i class="fas fa-{{ pageContent.content.class }}"></i>
+                </div>
+                <h2 class="card-title">
+                    {{ content_title ? content_title : pageContent.content.title}}
+                </h2>
+                {{ pageContent.content.content | raw }}
             </div>
-            <h4 class="card-title">
-                <span>{{pageContent.content.title}}</span>
-            </h4>
-            {{ pageContent.content.content | raw }}
         </div>
-    </div>
+    {% if slug_link %}
+        </a>
+    {% endif %}
 </div>

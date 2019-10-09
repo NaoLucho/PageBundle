@@ -1,4 +1,5 @@
 <?php
+
 namespace Builder\PageBundle\Controller\Builder;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -35,7 +36,7 @@ class BuildContentController extends Controller
         $content = $this->get('doctrine.orm.entity_manager')
             ->getRepository('BuilderPageBundle:Content')
             ->findOneBy(array('title' => $contentName));
-        
+
         $pageContent = new \Builder\PageBundle\Entity\Page_Content();
         $pageContent->setPage(new \Builder\PageBundle\Entity\Page());
         $pageContent->setContent($content);
@@ -64,6 +65,7 @@ class BuildContentController extends Controller
 
     public function buildContentAction($pageContent, $id = 0, Request $request)
     {
+        
         //Call correct controlleur depending type: $pageContent->getContent()->getType()
         switch ($pageContent->getContent()->getType()) {
             case "Image":
@@ -91,22 +93,21 @@ class BuildContentController extends Controller
                 //$this->generateUrl('my_login_path');
                 return $this->forward(strip_tags($pageContent->getContent()->getContent()), ['request' => $request, 'id' => $id, 'pageContent' => $pageContent]);
                 break;
-            case "Card2":
+            case "Card":
+                $sluglink = null;
+                $content_title = null;
+                $pageContent_title = $pageContent->getContent()->getTitle();
+                if($pageContent_title != null ){
+                    $title_elems = explode(">>", $pageContent_title);
+                    if(count($title_elems)>1){
+                        $content_title = $title_elems[0];
+                        $sluglink = $title_elems[1];
+                    }
+                }
                 return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
                     'pageContent' => $pageContent,
-                    'col' => 6
-                ));
-                break;
-            case "Card1":
-                return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
-                    'pageContent' => $pageContent,
-                    'col' => 12
-                ));
-                break;
-            case "Card3":
-                return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
-                    'pageContent' => $pageContent,
-                    'col' => 4
+                    'content_title' => $content_title,
+                    'slug_link' => $sluglink
                 ));
                 break;
             case "Carousel":
@@ -117,7 +118,8 @@ class BuildContentController extends Controller
                 //le transmettre à la vue
 
                 return $this->render('BuilderPageBundle:BuildContent:carousel.html.twig', array(
-                    'carousel' => $carousel
+                    'carousel' => $carousel,
+                    'pageContent' => $pageContent
                 ));
                 break;
             case "Form":
@@ -130,6 +132,78 @@ class BuildContentController extends Controller
                     'pageContent' => $pageContent
                 ));
         }
+
+
+        // // TRY TO USE HTTP CACHE: error headers are displayed on page...
+        // $response = new Response();
+        
+        // // dump($response->isNotModified($request));
+        // // dump($request->isMethodCacheable());
+        // // Check that the Response is not modified for the given Request
+        // if (!$response->isNotModified($request)) {
+            
+
+        //     //$responseContent = null;
+        //     //Call correct controlleur depending type: $pageContent->getContent()->getType()
+        //     switch ($pageContent->getContent()->getType()) {
+        //         case "Image":
+        //             $response = $this->render('BuilderPageBundle:BuildContent:image.html.twig', array(
+        //                 'pageContent' => $pageContent
+        //             ));
+        //             break;
+        //         case "MainMenu":
+        //             $response = $this->render('BuilderPageBundle:BuildContent:menu.html.twig', array(
+        //                 'pageContent' => $pageContent
+        //             ));
+        //             break;
+        //         case "Content":
+        //         case "ProdContent":
+        //             $response = $this->render('BuilderPageBundle:BuildContent:content.html.twig', array(
+        //                 'pageContent' => $pageContent
+        //             ));
+        //             break;
+        //         case "Menu":
+        //             $response = $this->menuAction($pageContent);
+        //             break;
+        //         case "Controller":
+        //             //$this->generateUrl('my_login_path');
+        //             $response = $this->forward(strip_tags($pageContent->getContent()->getContent()), ['request' => $request, 'id' => $id, 'pageContent' => $pageContent]);
+        //             break;
+        //         case "Card":
+        //             $response = $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
+        //                 'pageContent' => $pageContent
+        //             ));
+        //             break;
+        //         case "Carousel":
+        //             //recupérer le carousel avec pageContent.content = carousel name 
+        //             $carousel = $this->get('doctrine.orm.entity_manager')
+        //                 ->getRepository('BuilderPageBundle:Carousel')
+        //                 ->findBy(array('carousel' => strip_tags($pageContent->getContent()->getContent())));
+        //             //le transmettre à la vue
+
+        //             $response = $this->render('BuilderPageBundle:BuildContent:carousel.html.twig', array(
+        //                 'carousel' => $carousel,
+        //                 'pageContent' => $pageContent
+        //             ));
+        //             break;
+        //         case "Form":
+        //             //Faire le rendu du formulaire
+        //             //dump($request);
+        //             $response = $this->forward('BuilderFormBundle:Form:show', ['request' => $request, 'id' => $id, 'pageContent' => $pageContent]);
+        //             break;
+        //         default: //Text
+        //             $response = $this->render('BuilderPageBundle:BuildContent:text.html.twig', array(
+        //                 'pageContent' => $pageContent
+        //             ));
+        //     }
+        //     $date = new \DateTime();
+        //     $response->setLastModified($date);
+        //     // dump($response);
+        //     //$response->setContent($responseContent);
+        // }
+        // $response->setMaxAge(300);
+        // return $response;
+
     }
 
     //Appel du rendu d'un controlleur existant
@@ -141,37 +215,33 @@ class BuildContentController extends Controller
         // 1er cas: gestion des contenus FosUserBunde avec prefix /user/
         //tentative de récupération de la route: /user/$controllerUrl
         $route = $this->testMatchUrl('/user/', $controllerUrl, $request);
-        if(isset($route) && isset($route["_controller"]))
-        {
+        if (isset($route) && isset($route["_controller"])) {
             //return new JsonResponse($route);
             //$message = $message . " #route trouvé: /user/".$controllerUrl;
             return $this->forward($route['_controller'], ['request' => $request]);
         }
-        $route = $this->testMatchUrl('/user/', $controllerUrl.'/', $request);
-        if(isset($route))
-        {
+        $route = $this->testMatchUrl('/user/', $controllerUrl . '/', $request);
+        if (isset($route)) {
             //return new JsonResponse($route);
             //$message = $message . " #route trouvé: /user/".$controllerUrl.'/';
             return $this->forward($route['_controller'], ['request' => $request]);
         }
         $route = $this->testMatchUrl('/content/', $controllerUrl, $request);
-        if(isset($route))
-        {
+        if (isset($route)) {
             //return new JsonResponse($route);
             //$message = $message . " #route trouvé: /content/".$controllerUrl;
             return $this->forward($route['_controller'], ['request' => $request]);
         }
-        $route = $this->testMatchUrl('/content/', $controllerUrl.'/', $request);
-        if(isset($route))
-        {
+        $route = $this->testMatchUrl('/content/', $controllerUrl . '/', $request);
+        if (isset($route)) {
             //$message = $message . " #route trouvé: /content/".$controllerUrl.'/';
             return $this->forward($route['_controller'], ['request' => $request]);
         }
-        
-        //return new Response($message);
-        return new Response(" L'url demandé (".$controllerUrl.") n'est pas valide.");
 
-        
+        //return new Response($message);
+        return new Response(" L'url demandé (" . $controllerUrl . ") n'est pas valide.");
+
+
         // //Si la route est une redirection, recurérer la route de la redirection
         // if(isset($route["path"]))
         // try{
@@ -210,27 +280,22 @@ class BuildContentController extends Controller
 
     private function testMatchUrl($prefix, $url, $request)
     {
-        try{
-            $route = $this->get('router')->match($prefix.$url);
+        try {
+            $route = $this->get('router')->match($prefix . $url);
             //Si la route est une redirection, recurérer la route de la redirection
-            if(isset($route["path"]))
-            {
+            if (isset($route["path"])) {
                 $route = $this->get('router')->match($route["path"]);
             }
             //Si la route semble valide, appeller le controller
-            if($route != null && is_array($route))
-            {
-                if(isset($route["_route"]) && $route["_route"] == "builder_buildpage")
-                {
+            if ($route != null && is_array($route)) {
+                if (isset($route["_route"]) && $route["_route"] == "builder_buildpage") {
                     return null;
-                }
-                else{
+                } else {
                     return $route;
                 }
                 //return $this->forward($route['_controller'], ['request' => $request]);
             }
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             return null;
         }
     }
@@ -260,7 +325,7 @@ class BuildContentController extends Controller
     public function menuAction($pageContent)
     {
         $menuName = $pageContent->getContent()->getContent();
-        
+
         //IF menu is create with twig and not with knp_menu_render
         $menu = $this->get('doctrine.orm.entity_manager')
             ->getRepository('BuilderPageBundle:Menu')
@@ -277,22 +342,20 @@ class BuildContentController extends Controller
     {
         $currentslug = "";
         $baserequest = $baserequest->get('request');
-        if($baserequest)
-        {
+        if ($baserequest) {
             $currentslug = $baserequest->get('slug');
         }
-         //dump($baserequest);
-         //dump($baserequest->get('request')->get('slug'));
-        if ($menuName == null)
-        {
+        //dump($baserequest);
+        //dump($baserequest->get('request')->get('slug'));
+        if ($menuName == null) {
             $menuName = 'Principal';
         }
 
         //LOAD MENU PRINCIPAL
         $menu = $this->get('doctrine.orm.entity_manager')
-        ->getRepository('BuilderPageBundle:Menu')
-        ->findOneBy(array('name' => $menuName));
-        
+            ->getRepository('BuilderPageBundle:Menu')
+            ->findOneBy(array('name' => $menuName));
+
         //initialisation
         $links = [];
         $i = 0;
@@ -300,11 +363,11 @@ class BuildContentController extends Controller
         $user = $this->getUser();
         if ($menu != null) {
             foreach ($menu->getMenuPages() as $menuPage) {
-            //VERIFIER LES DROITS D'ACCES A LA PAGE:
-            // On vérifie que l'utilisateur dispose bien du rôle demandé au niveau de la page:
-            // $hasPageRights = true si le group Users est indiqué
-            // Sinon on controlle si le user a le group demandé
-            // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
+                //VERIFIER LES DROITS D'ACCES A LA PAGE:
+                // On vérifie que l'utilisateur dispose bien du rôle demandé au niveau de la page:
+                // $hasPageRights = true si le group Users est indiqué
+                // Sinon on controlle si le user a le group demandé
+                // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
                 $hasPageRights = false;
                 if (count($menuPage->getPage()->getRights()) == 0) {
                     $hasPageRights = true;
@@ -313,7 +376,7 @@ class BuildContentController extends Controller
                     if ($group->getName() == "All") {
                         $hasPageRights = true; //All users acce
                         break;
-                    } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
+                    } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName())))) // $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
                     {
                         $hasPageRights = true; // users has rights
                         break;
@@ -337,16 +400,15 @@ class BuildContentController extends Controller
 
     public function menuFooterAction($menuName)
     {
-        if ($menuName == null)
-        {
+        if ($menuName == null) {
             $menuName = 'Footer';
         }
 
         //LOAD MENU PRINCIPAL
         $menu = $this->get('doctrine.orm.entity_manager')
-        ->getRepository('BuilderPageBundle:Menu')
-        ->findOneBy(array('name' => $menuName));
-        
+            ->getRepository('BuilderPageBundle:Menu')
+            ->findOneBy(array('name' => $menuName));
+
         //initialisation
         $links = [];
         $i = 0;
@@ -354,11 +416,11 @@ class BuildContentController extends Controller
         $user = $this->getUser();
         if ($menu != null) {
             foreach ($menu->getMenuPages() as $menuPage) {
-            //VERIFIER LES DROITS D'ACCES A LA PAGE:
-            // On vérifie que l'utilisateur dispose bien du rôle demandé au niveau de la page:
-            // $hasPageRights = true si le group Users est indiqué
-            // Sinon on controlle si le user a le group demandé
-            // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
+                //VERIFIER LES DROITS D'ACCES A LA PAGE:
+                // On vérifie que l'utilisateur dispose bien du rôle demandé au niveau de la page:
+                // $hasPageRights = true si le group Users est indiqué
+                // Sinon on controlle si le user a le group demandé
+                // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
                 $hasPageRights = false;
                 if (count($menuPage->getPage()->getRights()) == 0) {
                     $hasPageRights = true;
@@ -367,7 +429,7 @@ class BuildContentController extends Controller
                     if ($group->getName() == "All") {
                         $hasPageRights = true; //All users acce
                         break;
-                    } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
+                    } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName())))) // $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
                     {
                         $hasPageRights = true; // users has rights
                         break;

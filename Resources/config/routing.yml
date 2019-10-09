@@ -1,10 +1,10 @@
 homepage:
     path: /
-    defaults: 
-        _controller: FrameworkBundle:Redirect:urlRedirect
-        path: /accueil
-        permanent: true
-
+    defaults:  { _controller: BuilderPageBundle:Builder\BuildPage:buildPage, slug: "accueil" }
+    # defaults: 
+    #     _controller: FrameworkBundle:Redirect:urlRedirect
+    #     path: /accueil
+    #     permanent: true
 
 site_loginpage:
     path:     /login/page
@@ -26,6 +26,11 @@ site_popup:
 #     defaults:
 #         _controller: BuilderPageBundle:Builder\BuildPage:buildPageDetails
 
+front_sitemap:
+    path:      /sitemap.{_format}
+    defaults: { _controller: BuilderPageBundle:SiteMap\SiteMap:siteMap }
+    requirements: 
+        _format: "xml"
 
 builder_buildpageid:
     path:      /{slug}/{id}
@@ -34,6 +39,10 @@ builder_buildpageid:
 
 
 #MAIN ROUTE ALL MATCH:
+builder_buildpage_base:
+    path:      /{slug}
+    defaults:  { _controller: BuilderPageBundle:Builder\BuildPage:buildPage, slug: "accueil" }
+
 builder_buildpage:
     path:      /{slug}/
     defaults:  { _controller: BuilderPageBundle:Builder\BuildPage:buildPage, slug: "accueil" }

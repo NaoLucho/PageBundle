@@ -95,7 +95,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {% if page %}<link rel="stylesheet" href="{{ page.class }}"/>{% endif %}
+    {% if page and page.class %}<link rel="stylesheet" href="{{ page.class }}"/>{% endif %}
     {# ICI AJOUTER css de {{page.class}} #}
     {# Possible aussi d'ajouter un fichier js #}
     {% stylesheets '@BuilderPageBundle/Resources/public/css/buildpage.css' %}

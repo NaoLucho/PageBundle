@@ -1,8 +1,8 @@
 {% extends "::builder_base_layout.html.twig" %}
 
 {% block title %}
-    {% if title is defined and title != 'ACCUEIL' %}{{title}} - {{ parent() }}
-    {% else %}{{ parent() }} - Articles accessibles et faciles à lire. FALC Ados, adultes
+    {% if title is defined %}{{title}}
+    {% else %}{{ parent() }}
     {% endif %}
 {% endblock %}
 

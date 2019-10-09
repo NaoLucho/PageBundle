@@ -1,7 +1,7 @@
 {% if carousel is defined and carousel is not null %}
   {% set items = carousel %}
 {% endif %}
-<div id="carousel" class="carousel slide w-100" data-ride="carousel">
+<div id="carousel" class="carousel slide w-100 {{ pageContent.content.class }}" data-ride="carousel">
   <ol class="carousel-indicators">
     {% if items is defined %}
         {% for item in items %}
@@ -14,10 +14,10 @@
     {% if items is defined %}
         {% for item in items %}
         <div class="carousel-item {% if loop.first %}active{% endif %}" >
-            <img class="d-block w-100" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="ee">
+            <img class="d-block w-100" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{item.title}} Image{{loop.index}} du slide">
             <div class="carousel-caption d-none d-md-block">
-              <h2>{{ item.title }}</h2>
-              <p>{{ item.content }}</p>
+              {% if item.title %}<span class="carousel-title">{{ item.title }}</span>{% endif %}
+              {% if item.content %}<p>{{ item.content }}</p>{% endif %}
             </div>
         </div>
         {% endfor %}

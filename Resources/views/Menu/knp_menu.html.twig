@@ -63,7 +63,6 @@
             {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
         {%- endif %}
         {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
-
         <li{{ macros.attributes(attributes) }}>
             {# displaying the item #}
             {%- if is_dropdown %}
