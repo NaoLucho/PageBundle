@@ -14,6 +14,16 @@ class Builder extends Controller implements ContainerAwareInterface
     {
         $menu = $factory->createItem('root');
         $menuName = $options["menuName"];
+        $request = $options["request"];
+        $route = 'builder_buildpage';
+        $routeparam = [];
+        //dump($request);
+        if($request != null && $request->get('_route')!=null){
+            $route = $request->get('_route');
+            $routeparam = array('username'=>$request->get('username'));
+        }
+        // dump($request->get('_route'));
+        // dump($request->get('username'));
         //if($menuName == null)
         //    $menuName = 'Principal';
         // access services from the container!
@@ -100,6 +110,36 @@ class Builder extends Controller implements ContainerAwareInterface
                 }
             }
         }
+
+        //ADD CONNEXION:
+        // if($this->get('security.authorization_checker')->isGranted("IS_AUTHENTICATED_REMEMBERED"))
+        // {
+        //     $menuprev = $menu->addChild(
+        //         $user->getUsername(),
+        //         array(
+        //             'route' => 'builder_buildpage',
+        //             'routeParameters' => array('slug' => 'profile'),
+        //         )
+        //     );
+        //     $menuprev = $menu->addChild(
+        //         "Déconnexion",
+        //         array(
+        //             'route' => 'fos_user_security_logout',
+        //         )
+        //     );
+        // } else {
+        //     $menuprev = $menu->addChild(
+        //         "Connexion",
+        //         array(
+        //             'route' => 'site_login',
+        //             'linkAttributes' => array(
+        //                 'id' => 'login',
+        //                 'data-toggle' => 'modal',
+        //                 'data-target' => '#modalLogin'
+        //             )
+        //         )
+        //     );
+        // }
 
         return $menu;
     }
