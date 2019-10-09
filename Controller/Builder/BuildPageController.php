@@ -17,7 +17,7 @@ class BuildPageController extends Controller
     {
         //dump($request);
         //$template_repo is repository of OPEN version : OPEN_241117
-        $template_repo = $this->container->getParameter('template_repo');
+        //$template_repo = $this->container->getParameter('template_repo');
 
         $em = $this->get('doctrine.orm.entity_manager');
         $page = $em->getRepository('BuilderPageBundle:Page')->findOneBy(array('slug' => $slug));
