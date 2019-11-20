@@ -26,6 +26,7 @@ class BuildContentController extends Controller
         return $this->render('BuilderPageBundle:BuildPage:buildcontents.html.twig', array(
             'page' => $page,
             'contents' => $selectContents,
+            'request' => $request,
             'notfoundmessage' => 'Erreur: le contenu par défaut en position ' . $selectposition . ' doit être défini dans la base.'
         ));
     }
@@ -73,8 +74,10 @@ class BuildContentController extends Controller
                 ));
                 break;
             case "MainMenu":
+                //dump($request);
                 return $this->render('BuilderPageBundle:BuildContent:menu.html.twig', array(
-                    'pageContent' => $pageContent
+                    'pageContent' => $pageContent,
+                    'request' => $request
                 ));
                 break;
             case "Content":
