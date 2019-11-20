@@ -11,11 +11,16 @@
 {% endblock %}
 
 {% block menu %}
-    <div id="menu">
+    <div class="main-logo">
+        <img src="{{ asset( '/assets/logo_img.png'  ) }}" alt="logo" class="logo-img"/> 
+        
+    </div>
+    <div id="menu" class="main-menu">
         {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Menu'})) }}
       {# {{ render(controller("BuilderPageBundle:Builder/BuildContent:menuPrincipal", {'menuName': 'Principal', 'request': (request is defined ? request : app.request )})) }} #}
     </div>
 {% endblock %}
+
 
 {% block body %}
     Default

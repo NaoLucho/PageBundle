@@ -10,16 +10,24 @@
     {% if title is not defined %}
         {% set title = page.name %}
     {% endif %}
-    {% if imageHero_exists %}
-        {% set imageHero = 'Visuel' ~ page.slug ~ '.jpg' %}
+    {% if imagePage_exists %}
+        {% set imagePage = 'Visuel' ~ page.headerImage ~ '.jpg' %}
     {% endif %}
-    {# Nom de l'image pour le hero de la page #}
+    {# Nom de l'image pour le Page de la page #}
 {% else %}
   {% set title = "Page inexistante" %}
-  {% set imageHero = 'VisuelContact.jpg' %}
+  {% set imagePage = 'VisuelContact.jpg' %}
 {% endif %}
 
-
+{% block headerBanner %}
+    {% if imagePage_exists %}
+        
+            <div class="banner"> 
+                <img alt="bannière principale Parci Parla" class="image_banner" src="/site/assets/images/{{imagePage}}"/>
+            </div>
+        {% else %}{{ parent() }}
+    {% endif %}
+{% endblock %}
 
 {% block seoDescription %}
     {% if page and page.seoDesc and page.seoDesc != '' %}"{{ page.seoDesc }}"{% else %}{{ parent() }}

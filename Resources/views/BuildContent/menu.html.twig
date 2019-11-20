@@ -1,14 +1,17 @@
 {% if pageContent is defined %}
 {% set menu = knp_menu_get('BuilderPageBundle:Builder:buildMenu', [], {'menuName': pageContent.content.content|striptags}) %}
 <div class="{{ pageContent.position }} {{ pageContent.content.class }}">
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-light navbar-expand-xl">
+    
+    <div class="navbar-brand">
+      {# <span>PAR-CI PAR-L&Agrave;</span> #}
+      <img src="{{ asset( '/assets/logo_texte.png'  ) }}" alt="logo" class="logo-text"/> 
+    </div>
     <button class="navbar-toggler mx-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"><i class="fas fa-bars fa-1x"></i></span>
+      <span class="navbar-toggler-icon"><i class="fas fa-1x"></i></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-    {# <img src="{{ asset( 'assets/LOGO-accent-tonique-2017.jpg'  ) }}" 
-    alt="logo"
-    height="52px" /> #}
+    
     {{ knp_menu_render(menu, {'currentClass': 'active', 'template': 'BuilderPageBundle:Menu:knp_menu.html.twig', ancestorClass: 'open'}) }}
     </div>
   </nav>

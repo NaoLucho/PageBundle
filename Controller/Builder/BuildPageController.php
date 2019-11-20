@@ -1,4 +1,5 @@
 <?php
+
 namespace Builder\PageBundle\Controller\Builder;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,32 +26,32 @@ class BuildPageController extends Controller
         $user = $this->getUser();
         $pageContents = [];
         $carousel = null;
-            //VERIFIER LES DROITS D'ACCES A LA PAGE:
-            // On vérifie que l'utilisateur dispose bien du rôle demandé au niveau de la page:
-                // $hasPageRights = true si le group Users est indiqué
-                // Sinon on controlle si le user a le group demandé
-                // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
+        //VERIFIER LES DROITS D'ACCES A LA PAGE:
+        // On vérifie que l'utilisateur dispose bien du rôle demandé au niveau de la page:
+        // $hasPageRights = true si le group Users est indiqué
+        // Sinon on controlle si le user a le group demandé
+        // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
         $hasPageRights = false;
-        $imageHero_exists = true;
+        $imagePage_exists = true;
 
         $mainController = null;
 
         if ($page != null) { //CREATE PAGE CONTENT FROM DATABASE
-                //VERIFICATION DES DROITS D'ACCES A LA PAGE
+            //VERIFICATION DES DROITS D'ACCES A LA PAGE
             foreach ($page->getRights() as $group) {
                 if ($group->getName() == "All") {
                     $hasPageRights = true; //All users can access
                     break;
-                } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
+                } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName())))) // $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
                 {
                     $hasPageRights = true; // users has rights
                     break;
                 }
             }
 
-                //VERIFICATION DES DROITS D'ACCES AUX CONTENTS - Calculé Coté TEMPLATE:
-                // On fait les mêmes vérifications avec is_granted('ROLE_'+group.name)
-                // Les droits du menu sont gérés dans le template du menu
+            //VERIFICATION DES DROITS D'ACCES AUX CONTENTS - Calculé Coté TEMPLATE:
+            // On fait les mêmes vérifications avec is_granted('ROLE_'+group.name)
+            // Les droits du menu sont gérés dans le template du menu
 
             $pageContents = $page->getPageContents();
 
@@ -63,10 +64,16 @@ class BuildPageController extends Controller
                 }
             }
 
-            //CHECK IMAGE HERO EXISTS: Visuels
-            $filename = 'Visuel' . $page->getSlug() . '.jpg';
-            $imageHero_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $this->container->getParameter('template_repo') . '/assets/images/' . $filename);
-                
+            //CHECK IF IMAGE HEADER EXISTS: Visuel+headerImage
+            $imagePage = 'Visuel' . $page->getHeaderImage() . '.jpg';
+            $imagePage_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $this->container->getParameter('template_repo') . '/assets/images/' . $imagePage);
+
+            if (!$imagePage_exists) {
+                //CHECK IMAGE Page_slug EXISTS: Visuel+slug
+                $imagePage = 'Visuel' . $page->getSlug() . '.jpg';
+                $imagePage_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $this->container->getParameter('template_repo') . '/assets/images/' . $imagePage);
+            }
+
             //ADD CARROUSEL
             if ($page->getSlug() === "accueil") {
                 $carousel = $em->getRepository('BuilderPageBundle:Carousel')->findAll();
@@ -80,7 +87,8 @@ class BuildPageController extends Controller
                     'page' => $page,
                     'notallowed' => !$hasPageRights,
                     'pageContents' => $pageContents,
-                    'imageHero_exists' => $imageHero_exists,
+                    'imagePage_exists' => $imagePage_exists,
+                    'bannerImagePage' => "imagePage",
                     'carousel' => $carousel,
 
                 );
@@ -98,12 +106,12 @@ class BuildPageController extends Controller
         }
 
         $pagetemplate = 'BuilderPageBundle:BuildPage:buildpage.html.twig';
-        
+
         //if tempate exists in $template_repo use it?
         // if ($this->get('twig')->getLoader()->exists(':' . $template_repo . '/views:' . $slug . '.html.twig')) {
         //     $pagetemplate = ':' . $template_repo . '/views:' . $slug . '.html.twig';
         // }
-        
+
         return $this->render($pagetemplate, array(
             'slug' => $slug,
             'id' => $id,
@@ -112,7 +120,7 @@ class BuildPageController extends Controller
             'page' => $page,
             'notallowed' => !$hasPageRights,
             'pageContents' => $pageContents,
-            'imageHero_exists' => $imageHero_exists,
+            'imagePage_exists' => $imagePage_exists,
             'carousel' => $carousel,
             'request' => $request
         ));
@@ -138,7 +146,7 @@ class BuildPageController extends Controller
             'pageContents' => $pageContents
         ));
     }
-    
+
     //OLD NOT USED
     public function buildPageWithTemplateAction($slug = "home", $id = 0, $tab = '', Request $request)
     {
@@ -150,9 +158,9 @@ class BuildPageController extends Controller
         $user = $this->getUser();
         //VERIFIER LES DROITS D'ACCES A LA PAGE:
         // On vérifie que l'utilisateur dispose bien du rôle demandé au niveau de la page:
-            // $hasPageRights = true si le group Users est indiqué
-            // Sinon on controlle si le user a le group demandé
-            // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
+        // $hasPageRights = true si le group Users est indiqué
+        // Sinon on controlle si le user a le group demandé
+        // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
         $hasPageRights = false;
 
         $pageContents = [];
@@ -167,7 +175,7 @@ class BuildPageController extends Controller
                 if ($group->getName() == "Users") {
                     $hasPageRights = true; //All users acce
                     break;
-                } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName()))))// $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
+                } elseif (isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName())))) // $user->hasRole(strtoupper('ROLE_'. $group->getName()))))
                 {
                     $hasPageRights = true; // users has rights
                     break;
@@ -187,8 +195,8 @@ class BuildPageController extends Controller
             // "MainMenu" => le premier élément trouvé défini le nom du menu principal
             // "Content"+* s'ajoutera dans le bloc body de la page
             // "Footer"+* s'ajoutera dans le bloc body de la page
-        
-        
+
+
 
             //Filter pageContents: Header, MainMenu, Content, Footer
 
@@ -203,7 +211,7 @@ class BuildPageController extends Controller
 
             //Filter pageContents position startwith
             $footerContents = Utils::filterPageContentPositionStartWith($pageContents, "Footer");
-        
+
             // Possible de changer le template par defaut si un content de la page à la position:
             // "Template", son contenu devra être le nom complet du template souhaité
             $templateContent = Utils::filterOnePageContentPositionStartWith($pageContents, "Template");
@@ -229,7 +237,7 @@ class BuildPageController extends Controller
     // //OLD (exemple d'une page completement build avec header-footer etc.)
     // public function buildFullPageAction($slug = "home", $id = 0, Request $request)
     // {
-        
+
     //     $page = $this->get('doctrine.orm.entity_manager')
     //         ->getRepository('BuilderPageBundle:Page')
     //         ->findOneBy(array('slug' => $slug));
@@ -241,14 +249,14 @@ class BuildPageController extends Controller
     //         // Sinon on controlle si le user a le group demandé
     //         // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
     //     $hasPageRights = false;
-        
+
     //     $pageContents = [];
     //     $headerContents = [];
     //     $menuContent = [];
     //     $pContents = [];
     //     $footerContents = [];
     //     $template = 'BuilderPageBundle:BuildPage:buildfullpage.html.twig';
-        
+
     //     if($page != null)
     //     {
     //         foreach ($page->getRights() as $group) {
@@ -268,7 +276,7 @@ class BuildPageController extends Controller
     //         // Calculé dans le template pour le header/content/footer
     //         // On fait les mêmes vérifications avec is_granted('ROLE_'+group.name)
     //         // Les droits du menu sont gérés dans le template du menu
-            
+
     //         $pageContents = $page->getPageContents();
 
     //         //CREATION DES CONTENU DE LA PAGE:
@@ -277,8 +285,8 @@ class BuildPageController extends Controller
     //         // "MainMenu" => le premier élément trouvé défini le nom du menu principal
     //         // "Content"+* s'ajoutera dans le bloc body de la page
     //         // "Footer"+* s'ajoutera dans le bloc body de la page
-        
-        
+
+
 
     //         //Filter pageContents: Header, MainMenu, Content, Footer
 
@@ -293,7 +301,7 @@ class BuildPageController extends Controller
 
     //         //Filter pageContents position startwith
     //         $footerContents = Utils::filterPageContentPositionStartWith($pageContents, "Footer");
-        
+
     //         // Possible de changer le template par defaut si un content de la page à la position:
     //         // "Template", son contenu devra être le nom complet du template souhaité
     //         $templateContent = Utils::filterOnePageContentPositionStartWith($pageContents, "Template");
@@ -316,7 +324,7 @@ class BuildPageController extends Controller
     // }
 
 
-    
+
     // //OLD
     // //CREATION DU MENU PRINCIPAL (utilisé dans le template par defaut du 16_11_2017)
     // public function menuPrincipalAction($menuName)

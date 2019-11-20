@@ -102,6 +102,7 @@ class BuildContentController extends Controller
                     }
                 }
                 return $this->render('BuilderPageBundle:BuildContent:card.html.twig', array(
+                    'pos' => $pageContent->getPosition(),
                     'pageContent' => $pageContent,
                     'content_title' => $content_title,
                     'slug_link' => $sluglink
