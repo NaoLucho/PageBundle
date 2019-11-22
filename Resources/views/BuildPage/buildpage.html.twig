@@ -20,12 +20,19 @@
 {% endif %}
 
 {% block headerBanner %}
-    {% if imagePage_exists %}
+    {% if page.slug == 'accueil' %}
+        <div class="banner">
+            {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildSpecificContent", {'contentTitle': "carouselAccueil", 'request': request })) }}
+        </div>
+    {% else %}
+        {% if imagePage_exists %}
         
             <div class="banner"> 
                 <img alt="bannière principale Parci Parla" class="image_banner" src="/site/assets/images/{{imagePage}}"/>
             </div>
+        
         {% else %}{{ parent() }}
+        {% endif %}
     {% endif %}
 {% endblock %}
 

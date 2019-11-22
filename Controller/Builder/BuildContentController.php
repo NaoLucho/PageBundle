@@ -5,6 +5,7 @@ namespace Builder\PageBundle\Controller\Builder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Builder\PageBundle\Controller\Builder\Utils;
+use Builder\PageBundle\Entity\Page_Content;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -448,5 +449,21 @@ class BuildContentController extends Controller
         return $this->render(':' . $this->container->getParameter('template_repo') . '/views/parts:footer-menu.html.twig', array(
             'links' => $links,
         ));
+    }
+
+    public function buildSpecificContentAction($contentTitle, Request $request){
+        $content = null;
+        if ($contentTitle != null) {
+            $content = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('BuilderPageBundle:Content')
+            ->findOneBy(array('title' => $contentTitle));
+        }
+
+        if($content != null){
+            $pageContent_temp = new Page_Content();
+            $pageContent_temp->setContent($content);
+        }
+        
+        return $this->buildContentAction($pageContent_temp, 0, $request);
     }
 }
