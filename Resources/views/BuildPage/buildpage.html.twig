@@ -19,7 +19,7 @@
   {% set imagePage = 'VisuelContact.jpg' %}
 {% endif %}
 
-{% block headerBanner %}
+{# {% block headerBanner %}
     {% if page.slug == 'accueil' %}
         <div class="banner">
             {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildSpecificContent", {'contentTitle': "carouselAccueil", 'request': request })) }}
@@ -34,7 +34,7 @@
         {% else %}{{ parent() }}
         {% endif %}
     {% endif %}
-{% endblock %}
+{% endblock %} #}
 
 {% block seoDescription %}
     {% if page and page.seoDesc and page.seoDesc != '' %}"{{ page.seoDesc }}"{% else %}{{ parent() }}
