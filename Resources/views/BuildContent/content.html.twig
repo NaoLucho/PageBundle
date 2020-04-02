@@ -1,9 +1,11 @@
 <div class="{{ pageContent.position }} {{ pageContent.content.class }} w-100">
-    <div class="">{{ pageContent.content.content | raw }}</div>
+	<div class="">{{ pageContent.content.content | raw }}</div>
+	
+    {% if is_granted('ROLE_ADMIN') %}
+		<div class="adminbtn">
+			<a href="/admin/builder/page/content/{{pageContent.content.id}}/edit" target="_blank">
+				EDIT
+			</a>
+		</div>
+	{% endif %}
 </div>
-
-{% if is_granted('ROLE_ADMIN') %}
-<div class="adminbtn">
-    <a href="/admin/builder/page/content/{{pageContent.content.id}}/edit" target="_blank"> EDIT </a>
-</div>
-{% endif %}

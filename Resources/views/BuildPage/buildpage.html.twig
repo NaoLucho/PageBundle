@@ -11,7 +11,7 @@
         {% set title = page.name %}
     {% endif %}
     {% if imagePage_exists %}
-        {% set imagePage = 'Visuel' ~ page.headerImage ~ '.jpg' %}
+        {% set imagePage = '/site/assets/images/' ~ page.headerImage %}
     {% endif %}
     {# Nom de l'image pour le Page de la page #}
 {% else %}
@@ -19,22 +19,30 @@
   {% set imagePage = 'VisuelContact.jpg' %}
 {% endif %}
 
-{# {% block headerBanner %}
-    {% if page.slug == 'accueil' %}
+{% block headerBanner %}
+    {% if carousel != null %}
         <div class="banner">
             {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildSpecificContent", {'contentTitle': "Accueil-caroussel", 'request': request })) }}
         </div>
     {% else %}
-        {% if imagePage_exists %}
-        
-            <div class="banner"> 
-                <img alt="bannière principale Parci Parla" class="image_banner" src="/site/assets/images/{{imagePage}}"/>
+        {% if mediaPage != null %}
+            <div class="banner">
+                {% media mediaPage, 'reference'  with {'class': 'image_banner'} %}
             </div>
-        
-        {% else %}{{ parent() }}
+        {% else %}
+            {% if imagePage_exists %}
+            
+                <div class="banner"> 
+                    <img alt="bannière de la page" class="image_banner" src="{{imagePage}}"/>
+                </div>
+            
+            {% else %}
+                
+                {{ parent() }}
+            {% endif %}
         {% endif %}
     {% endif %}
-{% endblock %} #}
+{% endblock %}
 
 {% block seoDescription %}
     {% if page and page.seoDesc and page.seoDesc != '' %}"{{ page.seoDesc }}"{% else %}{{ parent() }}

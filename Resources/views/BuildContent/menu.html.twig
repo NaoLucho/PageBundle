@@ -2,11 +2,11 @@
 
 {% set menu = knp_menu_get('BuilderPageBundle:Builder:buildMenu', [], {'menuName': pageContent.content.content|striptags, 'request':request}) %}
 <div class="{{ pageContent.position }} {{ pageContent.content.class }}">
-  <nav class="navbar navbar-light navbar-expand-xl">
+  <nav class="navbar navbar-light navbar-expand-xl nav-menu">
     
     <div class="navbar-brand">
-      {# <span>PAR-CI PAR-L&Agrave;</span> #}
-      <img src="{{ asset( '/assets/logo_texte.png'  ) }}" alt="logo" class="logo-text"/> 
+      <img src="{{ asset( '/site/assets/images/logo.png'  ) }}" alt="logo" class="logo-brand"/> 
+      {# <span>SITE</span> #}
     </div>
     <button class="navbar-toggler mx-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"><i class="fas fa-1x"></i></span>

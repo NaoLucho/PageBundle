@@ -83,9 +83,6 @@ class Builder extends Controller implements ContainerAwareInterface
     
                     }
                     $name = $menuPage->getPage()->getName();
-                    // if($name == "ACCUEIL"){
-                    //     $name = '<img src="/Sites/AccentTonique/Site/web/assets/LOGO-accent-tonique-2017.jpg" alt="AccentTonique" height="50px" />';
-                    // }
                     
                     $routeparam = array('slug' => $menuPage->getPage()->getSlug());
                     $attributes = [];

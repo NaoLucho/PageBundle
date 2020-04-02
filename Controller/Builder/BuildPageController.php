@@ -32,8 +32,8 @@ class BuildPageController extends Controller
         // Sinon on controlle si le user a le group demandé
         // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
         $hasPageRights = false;
-        $imagePage_exists = true;
-
+        $imagePage_exists = false;
+        $mediaPage_exists = false;
         $mainController = null;
 
         if ($page != null) { //CREATE PAGE CONTENT FROM DATABASE
@@ -64,9 +64,10 @@ class BuildPageController extends Controller
                 }
             }
 
-            //CHECK IF IMAGE HEADER EXISTS: Visuel+headerImage
-            $imagePage = 'Visuel' . $page->getHeaderImage() . '.jpg';
-            $imagePage_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $this->container->getParameter('template_repo') . '/assets/images/' . $imagePage);
+            //CHECK IF IMAGE HEADER EXISTS: headerImage
+            $imagePage = '' . $page->getHeaderImage() ;
+            if($imagePage != "")
+                $imagePage_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $this->container->getParameter('template_repo') . '/assets/images/' . $imagePage);
 
             if (!$imagePage_exists) {
                 //CHECK IMAGE Page_slug EXISTS: Visuel+slug
@@ -74,11 +75,21 @@ class BuildPageController extends Controller
                 $imagePage_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $this->container->getParameter('template_repo') . '/assets/images/' . $imagePage);
             }
 
-            //ADD CARROUSEL
-            if ($page->getSlug() === "accueil") {
-                $carousel = $em->getRepository('BuilderPageBundle:Carousel')->findAll();
+            //CHECK IF MEDIA HEADER EXISTS: Visuel+headerImage
+            // $mediaManager = $this->container->get('sonata.media.manager.media');
+            $repo = $this->getDoctrine()->getRepository('ApplicationSonataMediaBundle:Media');
+            $mediaPage = $repo->findOneBy(array('name'=>$imagePage));
+            //dump($mediaPage);
+
+            //ADD CAROUSEL IF IMAGE HEADER EXISTS 'carousel:<headerImage>'
+            $imagePageSplit = explode(":", $imagePage);
+            if ($imagePageSplit[0] === "carousel" && $imagePageSplit->count > 1){
+                $carousel = $em->getRepository('BuilderPageBundle:Carousel')->findBy(array('name'=>$imagePageSplit[1]));
             }
             //dump($request);
+
+            //dump($imagePage_exists);
+            //dump($imagePage);
 
             // if pcontent.content is Controller => need to forward it:
             if ($mainController != null) {
@@ -88,6 +99,7 @@ class BuildPageController extends Controller
                     'notallowed' => !$hasPageRights,
                     'pageContents' => $pageContents,
                     'imagePage_exists' => $imagePage_exists,
+                    'mediaPage' => $mediaPage,
                     'bannerImagePage' => "imagePage",
                     'carousel' => $carousel,
 
@@ -121,6 +133,7 @@ class BuildPageController extends Controller
             'notallowed' => !$hasPageRights,
             'pageContents' => $pageContents,
             'imagePage_exists' => $imagePage_exists,
+            'mediaPage' => $mediaPage,
             'carousel' => $carousel,
             'request' => $request
         ));

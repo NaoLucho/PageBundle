@@ -11,10 +11,10 @@
 {% endblock %}
 
 {% block menu %}
-    <div class="main-logo">
-        <img src="{{ asset( '/assets/LOGO_GAMBETTA.png'  ) }}" alt="logo" class="logo-img"/> 
-        <img src="{{ asset( '/assets/climbers3.png'  ) }}" alt="banner" class="banner-img"/> 
-    </div>
+    {# <div class="main-logo">
+        <img src="{{ asset( '/site/assets/images/logo.png'  ) }}" alt="logo" class="logo-img"/> 
+        <img src="{{ asset( '/site/assets/images/climbers3.png'  ) }}" alt="banner" class="banner-img"/> 
+    </div> #}
     <div id="menu" class="main-menu">
         {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Menu'})) }}
       {# {{ render(controller("BuilderPageBundle:Builder/BuildContent:menuPrincipal", {'menuName': 'Principal', 'request': (request is defined ? request : app.request )})) }} #}
