@@ -32,7 +32,7 @@ class BuildPageController extends Controller
         // Sinon on controlle si le user a le group demandé
         // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
         $hasPageRights = false;
-        $imagePage_exists = true;
+        $headerImage_exists = true;
 
         $mainController = null;
 
@@ -65,20 +65,30 @@ class BuildPageController extends Controller
             }
 
             //CHECK IF IMAGE HEADER EXISTS: Visuel+headerImage
-            $imagePage = 'Visuel' . $page->getHeaderImage() . '.jpg';
-            $imagePage_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $this->container->getParameter('template_repo') . '/assets/images/' . $imagePage);
-
-            if (!$imagePage_exists) {
-                //CHECK IMAGE Page_slug EXISTS: Visuel+slug
-                $imagePage = 'Visuel' . $page->getSlug() . '.jpg';
-                $imagePage_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $this->container->getParameter('template_repo') . '/assets/images/' . $imagePage);
+            $headerImage = 'Visuel' . $page->getHeaderImage();
+            // dump($headerImage_exists);
+            $headerImagePath =  '/assets/headers/' . $headerImage;
+            // dump($headerImagePath);
+            $headerImage_exists = file_exists($this->get('kernel')->getProjectDir() . '/web/' . $headerImagePath);
+            // dump($headerImage_exists);
+            if (!$headerImage_exists) {
+                //CHECK IMAGE Page_slug EXISTS on galery slug + _ + $page->getHeaderImage()
+                $headerImage = $page->getSlug() . '_' . $page->getHeaderImage();
             }
 
-            //ADD CARROUSEL
-            if ($page->getSlug() === "accueil") {
-                $carousel = $em->getRepository('BuilderPageBundle:Carousel')->findAll();
+            //if $page->getHeaderImage() = "carousel"+"-"+"carousel_name"
+            $headerCarousel = explode("-",$page->getHeaderImage());
+            
+            //ADD CARROUSEL if specificaly selected:
+            if (count($headerCarousel) == 2 && $headerCarousel[0] === "carousel") {
+                $carousel = $em->getRepository('BuilderPageBundle:Carousel')->findby(array("carousel"=>$headerCarousel[1]));
             }
-            //dump($request);
+            else //default carousel: $page->getSlug() . '_header';
+            {
+                $headerCarousel = $page->getSlug() . '_header';
+                $carousel = $em->getRepository('BuilderPageBundle:Carousel')->findby(array("carousel"=>$headerCarousel));
+            }
+            // dump($carousel);
 
             // if pcontent.content is Controller => need to forward it:
             if ($mainController != null) {
@@ -87,8 +97,8 @@ class BuildPageController extends Controller
                     'page' => $page,
                     'notallowed' => !$hasPageRights,
                     'pageContents' => $pageContents,
-                    'imagePage_exists' => $imagePage_exists,
-                    'bannerImagePage' => "imagePage",
+                    'headerImage_exists' => $headerImage_exists,
+                    'headerImagePath' => $headerImagePath,
                     'carousel' => $carousel,
 
                 );
@@ -120,7 +130,8 @@ class BuildPageController extends Controller
             'page' => $page,
             'notallowed' => !$hasPageRights,
             'pageContents' => $pageContents,
-            'imagePage_exists' => $imagePage_exists,
+            'headerImage_exists' => $headerImage_exists,
+            'headerImagePath' => $headerImagePath,
             'carousel' => $carousel,
             'request' => $request
         ));

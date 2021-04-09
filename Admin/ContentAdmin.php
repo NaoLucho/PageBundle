@@ -55,7 +55,7 @@ class ContentAdmin extends AbstractAdmin
                 'btn_add' => false,
                 'required' => false
             ));
-            if ( $securityContext->isGranted('ROLE_SUPER_ADMIN') ) {
+            if ( $securityContext->isGranted('ROLE_SUPER_ADMIN') || $securityContext->isGranted('ROLE_ADMIN') ) {
                 $formMapper
                 ->add('type', 'text', array(
                     'label' => 'Type',

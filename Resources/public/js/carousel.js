@@ -1,4 +1,4 @@
-// $("#carouselAccueil").ready(function(){
+// $("#carouselHeader").ready(function(){
 //     // var height = $('.carousel-item').height();
 //     // $('.carousel-item img').css('height',$('.carousel-item').height()+"px");
 //     // alert($('.carousel-item').html());

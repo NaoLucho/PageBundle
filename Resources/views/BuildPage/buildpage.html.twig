@@ -3,6 +3,9 @@
 {% extends 'builder_base_layout.html.twig' %}
 {% extends 'templates/default.html.twig' %} #}
 {# {% block title %}{{ page.name }}{% endblock %} #}
+
+{# Header par default #}
+{% set imagePage = "/assets/image1-min.png" %}
 {% if page %}
     {% if page.seoTitle != '' %}
         {% set title = page.seoTitle %}
@@ -10,28 +13,32 @@
     {% if title is not defined %}
         {% set title = page.name %}
     {% endif %}
-    {% if imagePage_exists %}
-        {% set imagePage = 'Visuel' ~ page.headerImage ~ '.jpg' %}
+    {% if headerImage_exists %}
+        {% set imagePage = headerImagePath %}
+    {% else %}
+        {% set imagePage = "/assets/image1-min.png" %}
     {% endif %}
     {# Nom de l'image pour le Page de la page #}
 {% else %}
   {% set title = "Page inexistante" %}
-  {% set imagePage = 'VisuelContact.jpg' %}
 {% endif %}
 
 {% block headerBanner %}
-    {% if page.slug == 'accueil' %}
+    {% if carousel is not null and carousel != []%}
+
         <div class="banner">
-            {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildSpecificContent", {'contentTitle': "Accueil-caroussel", 'request': request })) }}
+            {{ include('BuilderPageBundle:BuildContent:carousel.html.twig', {carousel:carousel}) }}
+            {# {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildSpecificContent", {'contentTitle': "accueil_header", 'request': request })) }} #}
         </div>
     {% else %}
-        {% if imagePage_exists %}
+        {% if headerImage_exists %}
         
             <div class="banner"> 
-                <img alt="bannière principale Parci Parla" class="image_banner" src="/site/assets/images/{{imagePage}}"/>
+                <img alt="bannière Parci Parla" class="image_banner" src="{{imagePage}}"/>
             </div>
         
-        {% else %}{{ parent() }}
+        {% else %}
+            {{ parent() }}
         {% endif %}
     {% endif %}
 {% endblock %}
