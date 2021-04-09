@@ -1,42 +1,55 @@
 {% if carousel is defined and carousel is not null %}
-  {% set items = carousel %}
+	{% set items = carousel %}
 {% endif %}
-<div id="carousel" class="carousel slide w-100 {{ pageContent.content.class }}" data-ride="carousel">
-  <ol class="carousel-indicators">
-    {% if items is defined %}
-        {% for item in items %}
-            <li data-target="#carousel" data-slide-to="{{loop.index0}}" {% if loop.first %}class="active"{% endif %}>
-            </li>
-        {% endfor %}
-    {% endif %}
-  </ol>
-  <div class="carousel-inner">
-    {% if items is defined %}
-        {% for item in items %}
-        <div class="carousel-item {% if loop.first %}active{% endif %}" >
-            <img class="d-block w-100" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{item.title}} Image{{loop.index}} du slide">
-            <div class="carousel-caption d-none d-md-block">
-              {% if item.title %}<span class="carousel-title">{{ item.title }}</span>{% endif %}
-              {% if item.content %}<p>{{ item.content }}</p>{% endif %}
-            </div>
-        </div>
-        {% endfor %}
-    {% endif %}
-  </div>
-  <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+<div id="carousel" class="carousel slide w-100 {{ pageContent is not defined ? 'carouselHeader' : pageContent.content.class }}" data-ride="carousel">
+	{% if items|length > 1 %}
+		<ol class="carousel-indicators" style="display: none;">
+			{% if items is defined %}
+				{% for item in items %}
+					<li data-target="#carousel" data-slide-to="{{loop.index0}}" {% if loop.first %} class="active" {% endif %}></li>
+				{% endfor %}
+			{% endif %}
+		</ol>
+	{% endif %}
+	<div class="carousel-inner">
+		{% if items is defined %}
+			{% for item in items %}
+				<div class="carousel-item {% if loop.first %}active{% endif %}">
+					<img class="d-block w-100" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="{{item.title}} Image{{loop.index}} du slide">
+					<div class="carousel-caption d-none d-md-block">
+						{% if item.title %}
+							<span class="carousel-title">{{ item.title }}</span>
+						{% endif %}
+						{% if item.content %}
+							<p>{{ item.content }}</p>
+						{% endif %}
+					</div>
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+	{% if items|length > 1 %}
+		<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	{% endif %}
+	{% if items|length == 0 %}
+		<img alt="bannière principale Parci Parla" class="image_banner" src="/assets/image1-min.png"/>
+	{% endif %}
 </div>
 
 <script>
-    //var height = $('.carousel-item').height();
-    {# $('.carousel-item img').css('height',$('.carousel-item').height()+"px"); #}
-    //alert($('.carousel-item').html());
-    //alert($('.carousel-item').height());
-    //alert(height);
+	// var height = $('.carousel-item').height();
+{
+# $('.carousel-item img').css('height', $('.carousel-item').height() + "px");
+#
+}
+// alert($('.carousel-item').html());
+// alert($('.carousel-item').height());
+// alert(height);
 </script>

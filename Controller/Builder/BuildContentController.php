@@ -461,9 +461,9 @@ class BuildContentController extends Controller
             ->getRepository('BuilderPageBundle:Content')
             ->findOneBy(array('title' => $contentTitle));
         }
-
+        // dump($contentTitle);
+        $pageContent_temp = new Page_Content();
         if($content != null){
-            $pageContent_temp = new Page_Content();
             $pageContent_temp->setContent($content);
         }
         

@@ -19,7 +19,7 @@ class PageAdmin extends AbstractAdmin
         ->add('name', 'text', array(
             'label' => 'Titre'
         ));
-        if ($securityContext->isGranted('ROLE_SUPER_ADMIN') ) {
+        if ($securityContext->isGranted('ROLE_SUPER_ADMIN') || $securityContext->isGranted('ROLE_ADMIN')) {
             $formMapper
             ->add('slug', 'text', array(
                 'label' => 'Slug'
@@ -40,7 +40,7 @@ class PageAdmin extends AbstractAdmin
                 'label' => 'Nom de l\'image d\'entête',
                 'required' => false
             ));
-        if ($securityContext->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($securityContext->isGranted('ROLE_SUPER_ADMIN') || $securityContext->isGranted('ROLE_ADMIN')) {
             $formMapper
             ->add('class', 'text', array(
                 'label' => 'Class spécifique',
@@ -95,7 +95,7 @@ class PageAdmin extends AbstractAdmin
             'label' => "Titre"
         ));
         
-        if ( $securityContext->isGranted('ROLE_SUPER_ADMIN') ) {
+        if ( $securityContext->isGranted('ROLE_SUPER_ADMIN') || $securityContext->isGranted('ROLE_ADMIN') ) {
             $listMapper
             ->add('slug')
             ->add('class');
@@ -114,7 +114,7 @@ class PageAdmin extends AbstractAdmin
         $securityContext = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker');
 
         $query = parent::createQuery($context);
-        if (!$securityContext->isGranted('ROLE_SUPER_ADMIN')) {
+        if (!($securityContext->isGranted('ROLE_SUPER_ADMIN') || $securityContext->isGranted('ROLE_ADMIN'))) {
 
             $query->andWhere(
                 $query->expr()->eq($query->getRootAliases()[0] . '.locked', ':locked')
