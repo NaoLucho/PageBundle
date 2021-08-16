@@ -1,42 +1,79 @@
 {% extends "::builder_base_layout.html.twig" %}
 
 {% block title %}
-    {% if title is defined %}{{title}}
-    {% else %}{{ parent() }}
-    {% endif %}
+	{% if title is defined %}
+		{{title}}
+	{% else %}
+		{{ parent() }}
+	{% endif %}
 {% endblock %}
 
+{# HEADER page layout #}
 {% block header %}
-    {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }}
+	{# <div class="mt-5">
+				<img src="{{ asset( '/assets/Banner_CO-HOP_vert2.png' ) }}" alt="banner" class="main_banner"/>
+			</div> #}
+
+	{% if page.slug is defined and page.slug == 'accueil' %}
+		<div class="banner mt-5">
+			<div class="banner-text-top">BI&Egrave;RE ARI&Eacute;GEOISE</div>
+			<!-- Bière ariégeoise -->
+			<img src="{{ asset( '/assets/Banner_CO-HOP_vert2.png' ) }}" alt="banner" class="w-100"/>
+			<div class="banner-text-bottom">Naturellement brassée à Lèze</div>
+			<!-- Naturellement brassée à Lèze -->
+		</div>
+		<div class="slogan mb-2">
+			<div>Pour une bière vivante et une Ariège écologique et responsable!</div>
+		</div>
+
+		<div class="banner-logos row m-0">
+			<div class="col d-flex">
+				<img class="logo-icon m-auto" src="{{ asset( '/assets/img/Logo vert Nature et progrès.jpg' ) }}" alt="mention Nature et Progrès">
+			</div>
+			<div class="col d-flex">
+				<img class="logo-icon m-auto" src="{{ asset( '/assets/img/bio-white.png' ) }}" alt="Biologique">
+			</div>
+			<div class="col d-flex">
+				<img class="logo-icon m-auto" src="{{ asset( '/assets/img/LOGO_SCOP-1024x610.png' ) }}" alt="logo scop coopérative">
+			</div>
+		</div>
+	{% else %}
+		<div class="banner-bg">
+			<img src="{{ asset( '/assets/Banner_CO-HOP_vert2.png' ) }}" alt="banner" class="w-100"/>
+		</div>
+	{% endif %}
+
+	{# {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }} #}
 {% endblock %}
 
 {% block menu %}
-    <div class="main-logo">
-        <img src="{{ asset( '/assets/logo_img2.png'  ) }}" alt="logo" class="logo-img"/> 
-        
-        <img src="{{ asset( '/assets/banner_cube.png'  ) }}" alt="banner" class="banner-img"/>
-        <img src="{{ asset( '/assets/banner_climbers.png'  ) }}" alt="banner" class="banner-img"/>
-    </div>
-    <div id="menu" class="main-menu">
-        {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Menu'})) }}
-      {# {{ render(controller("BuilderPageBundle:Builder/BuildContent:menuPrincipal", {'menuName': 'Principal', 'request': (request is defined ? request : app.request )})) }} #}
-    </div>
-    
+	{# <div class="main-logo">
+				        <img src="{{ asset( '/assets/logo_img2.png'  ) }}" alt="logo" class="logo-img"/> 
+				        
+				        <img src="{{ asset( '/assets/banner_cube.png'  ) }}" alt="banner" class="banner-img"/>
+				        <img src="{{ asset( '/assets/banner_climbers.png'  ) }}" alt="banner" class="banner-img"/>
+				    </div> #}
+	<div id="menu" class="main-menu sticky-top">
+		{{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Menu'})) }}
+		{# {{ render(controller("BuilderPageBundle:Builder/BuildContent:menuPrincipal", {'menuName': 'Principal', 'request': (request is defined ? request : app.request )})) }} #}
+	</div>
+
 {% endblock %}
 
 
 {% block body %}
-    Default
+	Default
 {% endblock %}
 
+
 {% block footer %}
-    {{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Footer'})) }}
+	{{ render(controller("BuilderPageBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Footer'})) }}
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    {# Possible aussi d'ajouter un fichier js #}
-    {% stylesheets '@AdminBundle/Resources/public/css/body_layout.css' %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %} 
+	{{ parent() }}
+	{# Possible aussi d'ajouter un fichier js #}
+	{% stylesheets '@AdminBundle/Resources/public/css/body_layout.css' %}
+	<link rel="stylesheet" href="{{ asset_url }}"/>
+	{% endstylesheets %}
 {% endblock %}

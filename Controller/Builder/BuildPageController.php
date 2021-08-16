@@ -104,7 +104,7 @@ class BuildPageController extends Controller
                 );
                 //dump($builderparams);
                 //dump($id);
-                //dump($mainController);
+                dump($mainController);
                 return $this->forward(strip_tags($mainController), array(
                     'slug' => $slug,
                     'id' => $id,

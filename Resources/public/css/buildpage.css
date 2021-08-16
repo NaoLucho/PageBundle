@@ -111,3 +111,49 @@ nav.single-pager li {
 .pagination a:hover {
     background-color: #e0f0ee;
 }
+
+.logo{
+    height: 23px;
+}
+
+.banner{
+    margin-top: -60px;
+    position: relative;
+}
+
+.banner-text-top{
+    /* position: absolute;
+    top: 60px; */
+    text-align: center;
+    width: 100%;
+    font-size: xxx-large;
+}
+
+.banner-text-bottom{
+    /* position: absolute;
+    bottom: 10px; */
+    text-align: center;
+    width: 100%;
+    font-size: xxx-large;
+}
+
+.slogan{
+    text-align: center;
+    width: 100%;
+    font-size: x-large;
+    font-style: italic;
+}
+
+.logo-icon{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.banner-bg{
+    position: fixed;
+}
+
+.page-float{
+    margin-top: 420px;
+    position: relative;
+}

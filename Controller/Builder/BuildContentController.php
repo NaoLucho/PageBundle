@@ -66,7 +66,7 @@ class BuildContentController extends Controller
 
     public function buildContentAction($pageContent, $id = 0, Request $request)
     {
-
+        dump($pageContent);
         // $user = $this->getUser();
         // isset($user) && ($user->hasGroup($group) || $this->get('security.authorization_checker')->isGranted(strtoupper('ROLE_' . $group->getName())))
         
