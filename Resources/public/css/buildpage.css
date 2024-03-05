@@ -29,6 +29,7 @@
 }
 
 .img-illustration {
+    width: 100%;
     max-width: 450px;
 }
 
@@ -36,13 +37,19 @@
     width: 100%;
 }
 
-.list-items .illustration img {
-    width: 150px;
-}
-
 .list-items .illustration {
     min-width: 150px;
     margin-bottom: 4px;
+    display: flex;
+}
+
+.list-items .illustration img {
+    max-width: 100%;
+    max-height: 170px;
+}
+
+.list-items .illustration a {
+    margin: auto;
 }
 
 .list-items .icon img {
@@ -76,7 +83,7 @@
     /* color: #222; */
     overflow: hidden;
     min-height: 100px;
-    max-height: 300px;
+    max-height: 122px;
     line-height: 2rem;
 }
 
@@ -101,11 +108,13 @@ nav.single-pager li {
 
 .pagination .active {
     font-weight: bold;
+    text-decoration: underline;
+    color: #FFF;
 }
 
 .pagination a {
     padding: 5px;
-    color: #222;
+    color: #DDD;
 }
 
 .pagination a:hover {

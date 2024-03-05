@@ -33,7 +33,7 @@ class BuildPageController extends Controller
         // ou si l'utilisateur à le role 'ROLE_'+group.name dans toute les responsabilités calculées
         $hasPageRights = false;
         $headerImage_exists = true;
-
+        $headerImagePath = "";
         $mainController = null;
 
         if ($page != null) { //CREATE PAGE CONTENT FROM DATABASE
