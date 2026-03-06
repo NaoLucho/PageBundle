@@ -153,9 +153,16 @@ nav.single-pager li {
     font-style: italic;
 }
 
+.banner-logos{
+    background-color: white;
+}
+
 .logo-icon{
-    max-width: 200px;
     max-height: 200px;
+}
+
+.logo-europe{
+    max-width: 1000px;
 }
 
 .banner-bg{
